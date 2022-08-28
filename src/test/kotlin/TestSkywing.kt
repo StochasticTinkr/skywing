@@ -1,33 +1,35 @@
 package com.stoachstictinkr.skywing
 
-import java.awt.Color
-import java.awt.Desktop
-import javax.swing.JOptionPane
+import com.stoachstictinkr.skywing.uibuilder.SpecRef
+import com.stoachstictinkr.skywing.uibuilder.SpecResolver
+import com.stoachstictinkr.skywing.uibuilder.label
+import java.util.IdentityHashMap
 
 fun main() {
-    initSkying()
-    Desktop.getDesktop().setAboutHandler {
-        JOptionPane.showMessageDialog(null, "This is Skywing", "About Skywing", JOptionPane.PLAIN_MESSAGE)
-    }
-    Desktop.getDesktop().setPreferencesHandler {
-        JOptionPane.showMessageDialog(null, "This is Skywing", "About Skywing", JOptionPane.PLAIN_MESSAGE)
+    initSkywing()
+
+    val resolver = object : SpecResolver {
+        val resolved = IdentityHashMap<SpecRef<*>, Any?>()
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <C> resolve(ref: SpecRef<C>): C = resolved.computeIfAbsent(ref) { key ->
+            key.getConfiguredInstance(this)
+        } as C
+
+
     }
     invokeLater {
-        frame("Testing custom component") {
-            exitOnClose()
-
-            customComponent {
-                preferredSize = 800 by 800
-                painter = {
-                    renderingHints(
-                        Rendering.QUALITY
-                    )
-                    clear(Color.black)
-                }
+        val mainFrame = frame {
+            centeredOnScreen()
+            title("Skywing Test")
+            label {
+                icon { url("https://imgs.xkcd.com/comics/cloud_swirls.png") }
             }
-
-            showPackedByPlatform()
+            exitOnClose()
+        }
+        resolver.resolve(mainFrame).apply {
+            pack()
+            isVisible = true
         }
     }
 }
-

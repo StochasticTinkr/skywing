@@ -2,7 +2,6 @@
 
 package com.stoachstictinkr.skywing
 
-import java.awt.Container
 import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.Paint
@@ -10,7 +9,6 @@ import java.awt.RenderingHints
 import java.awt.Shape
 import java.awt.image.BufferedImage
 import javax.swing.JComponent
-
 import java.awt.geom.Line2D.Double as Line
 import java.awt.geom.Point2D.Double as Point
 
@@ -194,7 +192,4 @@ class CustomComponent(
         }
     }
 }
-
-fun Container.customComponent(init: CustomComponent.() -> Unit = {}) =
-    maybeAdd(CustomComponent().apply(init))
 
