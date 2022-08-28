@@ -7,7 +7,7 @@ import java.awt.Component
 import java.awt.Cursor
 import java.awt.Dimension
 
-abstract class ComponentBuilder<C : Component> : ComponentSpec<C> {
+abstract class AbstractComponentBuilder<C : Component> : ComponentSpec<C> {
     private var minimumSize: Dimension? = null
     private var maximumSize: Dimension? = null
     private var preferredSize: Dimension? = null

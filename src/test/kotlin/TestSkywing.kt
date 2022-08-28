@@ -2,6 +2,7 @@ package com.stoachstictinkr.skywing
 
 import com.stoachstictinkr.skywing.uibuilder.SpecRef
 import com.stoachstictinkr.skywing.uibuilder.SpecResolver
+import com.stoachstictinkr.skywing.uibuilder.frame
 import com.stoachstictinkr.skywing.uibuilder.label
 import java.util.IdentityHashMap
 

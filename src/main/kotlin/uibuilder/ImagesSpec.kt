@@ -1,7 +1,6 @@
 package com.stoachstictinkr.skywing.uibuilder
 
 import com.stoachstictinkr.skywing.ResourceNotFound
-import com.stoachstictinkr.skywing.UiBuilderDsl
 import java.awt.Image
 import java.io.File
 import java.io.InputStream

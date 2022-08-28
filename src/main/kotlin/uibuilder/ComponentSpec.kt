@@ -1,6 +1,5 @@
 package com.stoachstictinkr.skywing.uibuilder
 
-import com.stoachstictinkr.skywing.UiBuilderDsl
 import java.awt.Color
 import java.awt.Component
 import java.awt.Cursor

@@ -1,12 +1,13 @@
 package com.stoachstictinkr.skywing.uibuilder.impl
 
+import com.stoachstictinkr.skywing.uibuilder.IconSpec
 import com.stoachstictinkr.skywing.uibuilder.JLabelSpec
 import com.stoachstictinkr.skywing.uibuilder.SpecResolver
 import javax.swing.Icon
 import javax.swing.JLabel
 import javax.swing.SwingConstants
 
-class JLabelBuilder : ComponentBuilder<JLabel>(), JLabelSpec {
+class JLabelBuilder : AbstractJComponentBuilder<JLabel>(), JLabelSpec {
     private var horizontalAlignment: Int? = null
     private var text: String? = null
     private var icon: Icon? = null
@@ -45,4 +46,6 @@ class JLabelBuilder : ComponentBuilder<JLabel>(), JLabelSpec {
             horizontalAlignment ?: if (icon != null) SwingConstants.CENTER else SwingConstants.LEADING
         )
     }
+
+    override fun icon(builder: IconSpec.() -> Icon) = icon(IconBuilder(builder::class.java).builder())
 }

@@ -1,10 +1,9 @@
 package com.stoachstictinkr.skywing.uibuilder
 
-import com.stoachstictinkr.skywing.uibuilder.impl.JLabelBuilder
 import javax.swing.Icon
 import javax.swing.JLabel
 
-interface JLabelSpec : ComponentSpec<JLabel> {
+interface JLabelSpec : JComponentSpec<JLabel> {
     fun text(text: String)
     fun icon(icon: Icon)
     fun alignLeft()
@@ -12,8 +11,6 @@ interface JLabelSpec : ComponentSpec<JLabel> {
     fun alignRight()
     fun alignLeading()
     fun alignTrailing()
-    fun icon(iconSpec: IconSpec.() -> Icon) = icon(IconSpec().iconSpec())
+    fun icon(builder: IconSpec.() -> Icon)
 }
 
-fun ContainerSpec.label(spec: JLabelSpec.() -> Unit): SpecRef<JLabel> =
-    JLabelBuilder().apply(spec).apply(::add)

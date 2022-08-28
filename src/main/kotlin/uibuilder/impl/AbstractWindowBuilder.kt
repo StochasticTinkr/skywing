@@ -5,7 +5,7 @@ import com.stoachstictinkr.skywing.uibuilder.LayoutSpec
 import com.stoachstictinkr.skywing.uibuilder.SpecRef
 import com.stoachstictinkr.skywing.uibuilder.SpecResolver
 import com.stoachstictinkr.skywing.uibuilder.WindowSpec
-import com.stoachstictinkr.skywing.uibuilder.impl.ComponentBuilder
+import com.stoachstictinkr.skywing.uibuilder.impl.AbstractComponentBuilder
 import com.stoachstictinkr.skywing.uibuilder.impl.ContainerBuilder
 import java.awt.Component
 import java.awt.Dialog
@@ -13,7 +13,7 @@ import java.awt.Image
 import java.awt.Shape
 import java.awt.Window
 
-abstract class AbstractWindowBuilder<C : Window> : ComponentBuilder<C>(), WindowSpec<C>,
+abstract class AbstractWindowBuilder<C : Window> : AbstractComponentBuilder<C>(), WindowSpec<C>,
     LayoutSpec by ContainerBuilder() {
     private var shape: Shape? = null
     private var isDoubleBuffered = false
