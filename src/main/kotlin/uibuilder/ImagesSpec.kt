@@ -1,6 +1,6 @@
-package com.stoachstictinkr.skywing.uibuilder
+package com.stochastictinkr.skywing.uibuilder
 
-import com.stoachstictinkr.skywing.ResourceNotFound
+import com.stochastictinkr.skywing.ResourceNotFound
 import java.awt.Image
 import java.io.File
 import java.io.InputStream

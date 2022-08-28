@@ -1,7 +1,7 @@
-package com.stoachstictinkr.skywing.uibuilder.impl
+package com.stochastictinkr.skywing.uibuilder.impl
 
-import com.stoachstictinkr.skywing.ResourceNotFound
-import com.stoachstictinkr.skywing.uibuilder.IconSpec
+import com.stochastictinkr.skywing.ResourceNotFound
+import com.stochastictinkr.skywing.uibuilder.IconSpec
 import java.awt.Image
 import java.io.File
 import java.net.URL

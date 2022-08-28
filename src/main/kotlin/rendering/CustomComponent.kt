@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.stoachstictinkr.skywing.rendering
+package com.stochastictinkr.skywing.rendering
 
 import java.awt.Graphics
 import java.awt.Graphics2D

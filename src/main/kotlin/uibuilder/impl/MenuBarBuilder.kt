@@ -1,7 +1,7 @@
-package com.stoachstictinkr.skywing.uibuilder.impl
+package com.stochastictinkr.skywing.uibuilder.impl
 
-import com.stoachstictinkr.skywing.uibuilder.MenuBarSpec
-import com.stoachstictinkr.skywing.uibuilder.SpecResolver
+import com.stochastictinkr.skywing.uibuilder.MenuBarSpec
+import com.stochastictinkr.skywing.uibuilder.SpecResolver
 import java.awt.MenuBar
 
 class MenuBarBuilder : MenuBarSpec {

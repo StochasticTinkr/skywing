@@ -1,4 +1,4 @@
-package com.stoachstictinkr.skywing
+package com.stochastictinkr.skywing
 
 import java.awt.desktop.AboutEvent
 import java.awt.desktop.PreferencesEvent

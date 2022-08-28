@@ -1,5 +1,6 @@
-package com.stoachstictinkr.skywing.uibuilder
+package com.stochastictinkr.skywing.uibuilder
 
+import com.stochastictinkr.skywing.uibuilder.impl.IconBuilder
 import java.awt.Image
 import java.io.File
 import java.net.URL
@@ -16,3 +17,5 @@ interface IconSpec {
     fun classResource(resourcePath: String): Icon
     fun classpathResource(resourcePath: String): Icon
 }
+
+fun buildIcon(spec: IconSpec.() -> Icon): Icon = IconBuilder(spec.javaClass).spec()

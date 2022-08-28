@@ -1,4 +1,4 @@
-package com.stoachstictinkr.skywing.uibuilder
+package com.stochastictinkr.skywing.uibuilder
 
 @DslMarker
 annotation class UiBuilderDsl

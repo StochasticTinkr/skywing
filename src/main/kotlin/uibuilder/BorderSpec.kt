@@ -1,13 +1,13 @@
 @file:Suppress("unused")
 
-package com.stoachstictinkr.skywing.uibuilder
+package com.stochastictinkr.skywing.uibuilder
 
 import java.awt.Color
 import java.awt.Font
 import javax.swing.border.Border
 
 @UiBuilderDsl
-interface BorderSpecSansTitled : SpecRef<Border?> {
+interface BorderSpecSansTitled {
     // Line borders
     fun lineBorder(color: Color, thickness: Int = 1, rounded: Boolean = false)
 
@@ -70,7 +70,7 @@ interface BorderSpecSansTitled : SpecRef<Border?> {
 
 @UiBuilderDsl
 interface BorderSpec : BorderSpecSansTitled {
-    fun titled(title: String, spec: TitledBorderSpec.() -> Unit)
+    fun titled(title: String, spec: TitledBorderSpec.() -> Unit = {})
     interface TitledBorderSpec {
         enum class Justify {
             LEFT,

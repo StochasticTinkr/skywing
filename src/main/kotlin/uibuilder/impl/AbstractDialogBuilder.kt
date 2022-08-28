@@ -1,8 +1,8 @@
-package com.stoachstictinkr.skywing.uibuilder.impl
+package com.stochastictinkr.skywing.uibuilder.impl
 
-import com.stoachstictinkr.skywing.AbstractWindowBuilder
-import com.stoachstictinkr.skywing.uibuilder.DialogSpec
-import com.stoachstictinkr.skywing.uibuilder.SpecResolver
+import com.stochastictinkr.skywing.AbstractWindowBuilder
+import com.stochastictinkr.skywing.uibuilder.DialogSpec
+import com.stochastictinkr.skywing.uibuilder.SpecResolver
 import java.awt.Dialog
 
 abstract class AbstractDialogBuilder<C : Dialog> : AbstractWindowBuilder<C>(), DialogSpec<C> {

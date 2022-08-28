@@ -1,4 +1,4 @@
-package com.stoachstictinkr.skywing
+package com.stochastictinkr.skywing
 
 import java.awt.Dimension
 import java.awt.EventQueue

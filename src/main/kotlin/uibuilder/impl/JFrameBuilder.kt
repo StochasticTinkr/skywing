@@ -1,10 +1,8 @@
-package uibuilder.impl
+package com.stochastictinkr.skywing.uibuilder.impl
 
-import com.stoachstictinkr.skywing.uibuilder.JFrameSpec
-import com.stoachstictinkr.skywing.uibuilder.RootPaneSpec
-import com.stoachstictinkr.skywing.uibuilder.SpecResolver
-import com.stoachstictinkr.skywing.uibuilder.impl.AbstractFrameBuilder
-import com.stoachstictinkr.skywing.uibuilder.impl.RootPaneBuilder
+import com.stochastictinkr.skywing.uibuilder.JFrameSpec
+import com.stochastictinkr.skywing.uibuilder.RootPaneSpec
+import com.stochastictinkr.skywing.uibuilder.SpecResolver
 import javax.swing.JFrame
 import javax.swing.WindowConstants
 

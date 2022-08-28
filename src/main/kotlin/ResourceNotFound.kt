@@ -1,4 +1,4 @@
-package com.stoachstictinkr.skywing
+package com.stochastictinkr.skywing
 
 import java.io.IOException
 

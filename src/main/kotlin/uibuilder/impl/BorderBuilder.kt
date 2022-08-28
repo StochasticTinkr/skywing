@@ -1,8 +1,9 @@
-package com.stoachstictinkr.skywing.com.stoachstictinkr.skywing.com.stoachstictinkr.skywing.uibuilder.impl
+package com.stochastictinkr.skywing.uibuilder.impl
 
-import com.stoachstictinkr.skywing.uibuilder.BorderSpec
-import com.stoachstictinkr.skywing.uibuilder.BorderSpecSansTitled
-import com.stoachstictinkr.skywing.uibuilder.SpecResolver
+import com.stochastictinkr.skywing.uibuilder.BorderSpec
+import com.stochastictinkr.skywing.uibuilder.BorderSpecSansTitled
+import com.stochastictinkr.skywing.uibuilder.SpecRef
+import com.stochastictinkr.skywing.uibuilder.SpecResolver
 import java.awt.Color
 import java.awt.Font
 import javax.swing.border.BevelBorder
@@ -12,9 +13,8 @@ import javax.swing.border.LineBorder
 import javax.swing.border.SoftBevelBorder
 import javax.swing.border.TitledBorder
 
-class BorderBuilder : BorderSpec {
+class BorderBuilder : BorderSpec, SpecRef<Border?> {
     private var border: Border? = null
-
     override fun titled(title: String, spec: BorderSpec.TitledBorderSpec.() -> Unit) {
         border = TitledBorderBuilder(title).apply(spec).build()
     }

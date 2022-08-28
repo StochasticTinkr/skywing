@@ -1,4 +1,4 @@
-package com.stoachstictinkr.skywing.uibuilder.impl
+package com.stochastictinkr.skywing.uibuilder.impl
 
 import javax.swing.Icon
 

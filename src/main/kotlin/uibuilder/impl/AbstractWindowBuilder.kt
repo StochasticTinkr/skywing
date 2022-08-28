@@ -1,12 +1,12 @@
-package com.stoachstictinkr.skywing
+package com.stochastictinkr.skywing
 
-import com.stoachstictinkr.skywing.uibuilder.ImagesSpec
-import com.stoachstictinkr.skywing.uibuilder.LayoutSpec
-import com.stoachstictinkr.skywing.uibuilder.SpecRef
-import com.stoachstictinkr.skywing.uibuilder.SpecResolver
-import com.stoachstictinkr.skywing.uibuilder.WindowSpec
-import com.stoachstictinkr.skywing.uibuilder.impl.AbstractComponentBuilder
-import com.stoachstictinkr.skywing.uibuilder.impl.ContainerBuilder
+import com.stochastictinkr.skywing.uibuilder.ImagesSpec
+import com.stochastictinkr.skywing.uibuilder.LayoutSpec
+import com.stochastictinkr.skywing.uibuilder.SpecRef
+import com.stochastictinkr.skywing.uibuilder.SpecResolver
+import com.stochastictinkr.skywing.uibuilder.WindowSpec
+import com.stochastictinkr.skywing.uibuilder.impl.AbstractComponentBuilder
+import com.stochastictinkr.skywing.uibuilder.impl.ContainerBuilder
 import java.awt.Component
 import java.awt.Dialog
 import java.awt.Image

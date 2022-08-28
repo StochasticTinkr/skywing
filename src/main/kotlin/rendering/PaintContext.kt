@@ -1,4 +1,4 @@
-package com.stoachstictinkr.skywing.rendering
+package com.stochastictinkr.skywing.rendering
 
 import java.awt.Font
 import java.awt.FontMetrics

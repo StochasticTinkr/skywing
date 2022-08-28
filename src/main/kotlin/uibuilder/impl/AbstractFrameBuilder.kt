@@ -1,8 +1,8 @@
-package com.stoachstictinkr.skywing.uibuilder.impl
+package com.stochastictinkr.skywing.uibuilder.impl
 
-import com.stoachstictinkr.skywing.AbstractWindowBuilder
-import com.stoachstictinkr.skywing.uibuilder.FrameSpec
-import com.stoachstictinkr.skywing.uibuilder.SpecResolver
+import com.stochastictinkr.skywing.AbstractWindowBuilder
+import com.stochastictinkr.skywing.uibuilder.FrameSpec
+import com.stochastictinkr.skywing.uibuilder.SpecResolver
 import java.awt.Frame
 
 abstract  class AbstractFrameBuilder<C: Frame> : AbstractWindowBuilder<C>(), FrameSpec<C> {

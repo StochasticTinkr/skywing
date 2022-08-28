@@ -1,9 +1,9 @@
-package com.stoachstictinkr.skywing
+package com.stochastictinkr.skywing
 
-import com.stoachstictinkr.skywing.uibuilder.SpecRef
-import com.stoachstictinkr.skywing.uibuilder.SpecResolver
-import com.stoachstictinkr.skywing.uibuilder.frame
-import com.stoachstictinkr.skywing.uibuilder.label
+import com.stochastictinkr.skywing.uibuilder.SpecRef
+import com.stochastictinkr.skywing.uibuilder.SpecResolver
+import com.stochastictinkr.skywing.uibuilder.frame
+import com.stochastictinkr.skywing.uibuilder.label
 import java.util.IdentityHashMap
 
 fun main() {
@@ -16,15 +16,20 @@ fun main() {
         override fun <C> resolve(ref: SpecRef<C>): C = resolved.computeIfAbsent(ref) { key ->
             key.getConfiguredInstance(this)
         } as C
-
-
     }
     invokeLater {
         val mainFrame = frame {
             centeredOnScreen()
             title("Skywing Test")
             label {
+                border {
+                    titled("XKCD")
+                }
                 icon { url("https://imgs.xkcd.com/comics/cloud_swirls.png") }
+                text("Hello Clouds")
+                horizontalTextPosition { center() }
+                verticalTextPosition { bottom() }
+                verticalAlignment { bottom() }
             }
             exitOnClose()
         }
