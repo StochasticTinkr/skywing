@@ -4,12 +4,11 @@ package com.stochastictinkr.skywing.uibuilder
 
 import java.awt.Color
 import java.awt.Font
-import javax.swing.border.Border
 
 @UiBuilderDsl
 interface BorderSpecSansTitled {
     // Line borders
-    fun lineBorder(color: Color, thickness: Int = 1, rounded: Boolean = false)
+    fun line(color: Color, thickness: Int = 1, rounded: Boolean = false)
 
     // Bevel borders
     fun bevel(spec: BevelTypeSpec.() -> Unit)
@@ -71,7 +70,7 @@ interface BorderSpecSansTitled {
 @UiBuilderDsl
 interface BorderSpec : BorderSpecSansTitled {
     fun titled(title: String, spec: TitledBorderSpec.() -> Unit = {})
-    interface TitledBorderSpec {
+    interface TitledBorderSpec : BorderSpecSansTitled {
         enum class Justify {
             LEFT,
             CENTER,
@@ -89,11 +88,11 @@ interface BorderSpec : BorderSpecSansTitled {
             BELOW_BOTTOM,
         }
 
-        fun border(spec: (BorderSpecSansTitled.() -> Unit))
         fun justified(justify: Justify)
         fun positioned(position: Position)
         fun font(font: Font)
-        fun color(color: Color)
+        fun font(spec: FontSpec.() -> Unit)
+        fun textColor(color: Color)
 
         companion object {
             val left = Justify.LEFT

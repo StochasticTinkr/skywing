@@ -5,7 +5,7 @@ import com.stochastictinkr.skywing.uibuilder.SpecRef
 import com.stochastictinkr.skywing.uibuilder.SpecResolver
 import java.awt.Font
 
-class FontBuilder : FontSpec, SpecRef<Font> {
+class FontBuilder : FontSpec, SpecRef<Font?> {
     private var name: String? = null
     private var style: Int = Font.PLAIN
     private var size: Int = 8

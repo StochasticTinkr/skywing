@@ -19,7 +19,7 @@ abstract class AbstractComponentBuilder<C : Component> : ComponentSpec<C>, SpecR
     private var cursor: Cursor? = null
     private var background: Color? = null
     private var foreground: Color? = null
-    private var font: SpecRef<Font>? = null
+    private var font: SpecRef<Font?>? = null
     override fun font(font: Font) {
         this.font = ref(font)
     }

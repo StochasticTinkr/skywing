@@ -2,8 +2,11 @@ package com.stochastictinkr.skywing.uibuilder.impl
 
 import com.stochastictinkr.skywing.uibuilder.BorderSpec
 import com.stochastictinkr.skywing.uibuilder.BorderSpecSansTitled
+import com.stochastictinkr.skywing.uibuilder.FontSpec
 import com.stochastictinkr.skywing.uibuilder.SpecRef
 import com.stochastictinkr.skywing.uibuilder.SpecResolver
+import com.stochastictinkr.skywing.uibuilder.ref
+import com.stochastictinkr.skywing.uibuilder.resolveOrNull
 import java.awt.Color
 import java.awt.Font
 import javax.swing.border.BevelBorder
@@ -14,20 +17,19 @@ import javax.swing.border.SoftBevelBorder
 import javax.swing.border.TitledBorder
 
 class BorderBuilder : BorderSpec, SpecRef<Border?> {
-    private var border: Border? = null
+    private var border: SpecRef<Border?>? = null
     override fun titled(title: String, spec: BorderSpec.TitledBorderSpec.() -> Unit) {
-        border = TitledBorderBuilder(title).apply(spec).build()
+        border = TitledBorderBuilder(title).apply(spec)
     }
 
-    class TitledBorderBuilder(val title: String) : BorderSpec.TitledBorderSpec {
-        private var font: Font? = null
+    private class TitledBorderBuilder(
+        val title: String,
+        val borderBuilder: BorderBuilder = BorderBuilder(),
+    ) : BorderSpec.TitledBorderSpec, BorderSpecSansTitled by borderBuilder, SpecRef<Border?> {
+        private var font: SpecRef<Font?>? = null
         private var color: Color? = null
         private var justify: Int = TitledBorder.DEFAULT_JUSTIFICATION
         private var position: Int = TitledBorder.DEFAULT_POSITION
-        private var border: Border? = null
-        override fun border(spec: BorderSpecSansTitled.() -> Unit) {
-            border = BorderBuilder().apply(spec).border
-        }
 
         override fun justified(justify: BorderSpec.TitledBorderSpec.Justify) {
             this.justify = when (justify) {
@@ -51,24 +53,35 @@ class BorderBuilder : BorderSpec, SpecRef<Border?> {
         }
 
         override fun font(font: Font) {
-            this.font = font
+            this.font = ref(font)
         }
 
-        override fun color(color: Color) {
+        override fun font(spec: FontSpec.() -> Unit) {
+            this.font = FontBuilder().apply(spec)
+        }
+
+        override fun textColor(color: Color) {
             this.color = color
         }
 
-        fun build(): Border {
-            return TitledBorder(border, title, justify, position, font, color)
+        override fun getInstance(resolver: SpecResolver): Border? {
+            return TitledBorder(
+                resolver.resolve(borderBuilder),
+                title,
+                justify,
+                position,
+                font?.resolveOrNull(resolver),
+                color
+            )
         }
     }
 
-    override fun lineBorder(color: Color, thickness: Int, rounded: Boolean) {
-        border = LineBorder(color, thickness, rounded)
+    override fun line(color: Color, thickness: Int, rounded: Boolean) {
+        border = ref(LineBorder(color, thickness, rounded))
     }
 
     override fun bevel(spec: BorderSpecSansTitled.BevelTypeSpec.() -> Unit) {
-        border = BevelBorderBuilder().apply(spec).build()
+        border = ref(BevelBorderBuilder().apply(spec).build())
     }
 
     class BevelBorderBuilder : BorderSpecSansTitled.BevelTypeSpec {
@@ -139,7 +152,7 @@ class BorderBuilder : BorderSpec, SpecRef<Border?> {
     }
 
     override fun etched(spec: BorderSpecSansTitled.EtchedTypeSpec.() -> Unit) {
-        border = EtchedBuilder().apply(spec).build()
+        border = ref(EtchedBuilder().apply(spec).build())
     }
 
     private class EtchedBuilder() : BorderSpecSansTitled.EtchedTypeSpec {
@@ -164,6 +177,8 @@ class BorderBuilder : BorderSpec, SpecRef<Border?> {
         }
     }
 
-    override fun getInstance(resolver: SpecResolver): Border? = border
-
+    override fun getInstance(resolver: SpecResolver): Border? = border?.getInstance(resolver)
+    override fun getConfiguredInstance(resolver: SpecResolver): Border? {
+        return border?.getConfiguredInstance(resolver)
+    }
 }

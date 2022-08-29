@@ -8,3 +8,6 @@ interface SpecRef<C> {
 fun <C> SpecRef<C>?.resolveThen(resolver: SpecResolver, then: (C) -> Unit): Unit {
     if (this != null) resolver.resolve(this).also(then)
 }
+
+fun <C> SpecRef<C>?.resolveOrNull(resolver: SpecResolver, then: (C) -> Unit = {}): C? =
+    if (this != null) resolver.resolve(this).apply(then) else null

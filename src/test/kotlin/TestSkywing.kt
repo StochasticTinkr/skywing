@@ -3,7 +3,9 @@ package com.stochastictinkr.skywing
 import com.stochastictinkr.skywing.uibuilder.SpecRef
 import com.stochastictinkr.skywing.uibuilder.SpecResolver
 import com.stochastictinkr.skywing.uibuilder.frame
+import com.stochastictinkr.skywing.uibuilder.hsb
 import com.stochastictinkr.skywing.uibuilder.label
+import java.awt.Color
 import java.util.IdentityHashMap
 
 fun main() {
@@ -22,14 +24,12 @@ fun main() {
             centeredOnScreen()
             title("Skywing Test")
             label {
-                border {
-                    titled("XKCD")
-                }
                 icon { url("https://imgs.xkcd.com/comics/cloud_swirls.png") }
                 text("Hello Clouds")
                 horizontalTextPosition { center() }
                 verticalTextPosition { bottom() }
-                verticalAlignment { bottom() }
+                verticalAlignment { center() }
+                horizontalAlignment { center() }
             }
             exitOnClose()
         }
