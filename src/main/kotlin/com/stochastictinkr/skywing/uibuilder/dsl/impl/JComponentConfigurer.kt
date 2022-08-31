@@ -9,10 +9,11 @@ import javax.swing.JComponent
 import javax.swing.border.Border
 
 fun jComponentConfigurer(): Configurer<JComponentConfig, JComponent> =
-    JComponentConfigurer().asConfigurer {
-        componentConfigurer.configure(it)
-        managedLayoutConfigurer.configure(it)
-        it.border = border
+    JComponentConfigurer().asConfigurer { component ->
+        componentConfigurer.configure(component)
+        managedLayoutConfigurer.configure(component)
+        component.border = border
+        component.toolTipText = toolTipText
     }
 
 private class JComponentConfigurer(
@@ -21,7 +22,7 @@ private class JComponentConfigurer(
 ) : JComponentConfig,
     ComponentConfig by componentConfigurer.config,
     ManagedLayoutConfig by managedLayoutConfigurer.config {
-
+    var toolTipText:String? = null
     var border: Border? = null
     override fun border(border: Border?) {
         this.border = border
@@ -29,5 +30,9 @@ private class JComponentConfigurer(
 
     override fun border(init: BorderConfig.() -> Unit) {
         border(buildBorder(init))
+    }
+
+    override fun toolTip(text: String) {
+        toolTipText = text
     }
 }

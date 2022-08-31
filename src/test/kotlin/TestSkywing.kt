@@ -18,6 +18,7 @@ fun main() {
                 text("Hello Clouds")
                 textPosition { centerHorizontally(); bottom() }
                 alignment { centerHorizontally(); centerVertically() }
+                toolTip("https://xkcd.com/2664/")
             }
             exitOnClose()
         }.apply {
