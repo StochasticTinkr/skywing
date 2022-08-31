@@ -1,6 +1,7 @@
 package com.stochastictinkr.skywing.uibuilder.dsl.impl
 
 import com.stochastictinkr.skywing.uibuilder.dsl.ColorConfig
+ import com.stochastictinkr.skywing.utils.clampedTo
 import java.awt.Color
 import kotlin.math.roundToInt
 
@@ -9,15 +10,6 @@ fun buildColor(init: ColorConfig.() -> Unit): Color =
 
 fun buildOptionalColor(init: ColorConfig.() -> Unit): Color? =
     ColorBuilder().apply(init).color
-
-private infix fun Float.clampedTo(range: ClosedFloatingPointRange<Float>): Float {
-    if (range.contains(this)) {
-        return this
-    }
-    if (range.start > this) {
-        return range.start
-    } else return range.endInclusive
-}
 
 private class ColorBuilder : ColorConfig {
     var color: Color? = null
