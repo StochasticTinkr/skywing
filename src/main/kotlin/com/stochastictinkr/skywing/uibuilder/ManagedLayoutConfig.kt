@@ -1,3 +1,3 @@
 package com.stochastictinkr.skywing.uibuilder
 
-interface ManagedLayoutConfig : ContainerConfig
+interface ManagedLayoutConfig : ContainerConfig, ComponentFactory

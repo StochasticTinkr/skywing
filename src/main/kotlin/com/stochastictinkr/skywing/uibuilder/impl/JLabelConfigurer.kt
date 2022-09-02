@@ -9,10 +9,8 @@ import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.SwingConstants
 
-internal fun buildJLabel(init: JLabelConfig.() -> Unit): JLabel =
-    JLabelConfigurer().run {
-        init()
-        val label = JLabel()
+internal fun jLabelConfigurer(): Configurer<JLabelConfig, JLabel> =
+    JLabelConfigurer().asConfigurer { label ->
         jComponentConfigurer.configure(label)
         label.text = text
         label.icon = icon
@@ -26,8 +24,9 @@ internal fun buildJLabel(init: JLabelConfig.() -> Unit): JLabel =
         label.verticalAlignment = verticalAlignment
         label.horizontalAlignment =
             horizontalAlignment ?: if (icon != null) SwingConstants.CENTER else SwingConstants.LEADING
-        label
     }
+
+internal fun jLabelBuilder(): Builder<JLabelConfig, JLabel> = jLabelConfigurer().asBuilder { JLabel() }
 
 private class JLabelConfigurer(val jComponentConfigurer: Configurer<JComponentConfig, JComponent> = jComponentConfigurer()) :
     JLabelConfig, JComponentConfig by jComponentConfigurer.config {

@@ -1,5 +1,6 @@
 package com.stochastictinkr.skywing.uibuilder.impl
 
+import com.stochastictinkr.skywing.uibuilder.ContainerConfig
 import com.stochastictinkr.skywing.uibuilder.JFrameConfig
 import com.stochastictinkr.skywing.uibuilder.WindowConfig
 import javax.swing.JFrame
@@ -14,7 +15,8 @@ internal fun jFrameConfigurer(): Configurer<JFrameConfig, JFrame> =
         windowConfigurer.configure(frame)
     }
 
-private class JFrameConfigurer(val windowConfigurer: Configurer<WindowConfig, in JFrame> = windowConfigurer()) :
+private class JFrameConfigurer(val windowConfigurer: Configurer<WindowConfig, in JFrame> = windowConfigurer(),
+) :
     JFrameConfig, WindowConfig by windowConfigurer.config {
     var defaultCloseOperation = WindowConstants.HIDE_ON_CLOSE
     var title: String? = "Untitled"

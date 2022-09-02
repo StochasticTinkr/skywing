@@ -6,7 +6,7 @@ import java.awt.Shape
 import java.awt.Image as AwtImage
 
 @UiBuilderDsl
-interface WindowConfig : ContainerConfig {
+interface WindowConfig : ManagedLayoutConfig {
     fun windowOpacity(opacity: Float)
     fun windowShape(shape: Shape)
     fun defaultShape()

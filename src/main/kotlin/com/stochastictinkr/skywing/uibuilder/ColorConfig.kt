@@ -1,5 +1,6 @@
 package com.stochastictinkr.skywing.uibuilder
 
+@UiBuilderDsl
 interface ColorConfig {
     fun rgb(red: Int, green: Int, blue: Int, alpha: Int = 255)
     fun rgb(red: Float, green: Float, blue: Float, alpha: Float = 1.0f)

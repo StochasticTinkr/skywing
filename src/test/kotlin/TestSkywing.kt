@@ -10,15 +10,34 @@ fun main() {
             title("Skywing Test")
             packed()
             centeredOnScreen()
-            label {
-                border {
-                    titled("Swirls")
+            scrollPane {
+                box {
+                    slider {
+                        border {
+                            titled("Move")
+                        }
+                        range(1..100)
+                        majorTickSpacing(10)
+                        minorTickSpacing(2)
+                        snapToTicks()
+                        paintTicks()
+                        paintTrack()
+                        paintLabels()
+                        onChange { println("New value: $it") }
+                        onAdjusting { println("Choosing value: $it") }
+                    }
+
+                    label {
+                        border {
+                            titled("Swirls")
+                        }
+                        icon { url("https://imgs.xkcd.com/comics/cloud_swirls.png") }
+                        text("Hello Clouds")
+                        textPosition { centerHorizontally(); bottom() }
+                        alignment { centerHorizontally(); centerVertically() }
+                        toolTip("https://xkcd.com/2664/")
+                    }
                 }
-                icon { url("https://imgs.xkcd.com/comics/cloud_swirls.png") }
-                text("Hello Clouds")
-                textPosition { centerHorizontally(); bottom() }
-                alignment { centerHorizontally(); centerVertically() }
-                toolTip("https://xkcd.com/2664/")
             }
             exitOnClose()
         }.apply {
