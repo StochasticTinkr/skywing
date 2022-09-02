@@ -9,13 +9,18 @@ import javax.swing.JComponent
 
 
 class CustomComponent(
-    var painter: com.stochastictinkr.skywing.rendering.PaintContext.() -> Unit = {},
+    var painter: PaintContext.() -> Unit = {},
 ) : JComponent() {
-    fun painter(painter: com.stochastictinkr.skywing.rendering.PaintContext.() -> Unit) {
+    init {
+        isOpaque = true
+    }
+    fun painter(painter: PaintContext.() -> Unit) {
         this.painter = painter
     }
 
     override fun paintComponent(g: Graphics) {
+        g.color = background
+        g.fillRect(0, 0, width, height)
         withPaintContext(g)
     }
 
@@ -32,7 +37,13 @@ class CustomComponent(
 
     private fun paintAndDispose(g: Graphics2D) {
         try {
-            painter(com.stochastictinkr.skywing.rendering.PaintContext(g, width, height))
+            g.background = background
+            g.paint = foreground
+            val paintableWidth = width - insets.right - insets.left
+            val paintableHeight = height - insets.top - insets.bottom
+            g.clipRect(insets.left, insets.top, paintableWidth, paintableHeight)
+            g.translate(insets.left, insets.top)
+            painter(PaintContext(g, paintableWidth, paintableHeight))
         } finally {
             g.dispose()
         }

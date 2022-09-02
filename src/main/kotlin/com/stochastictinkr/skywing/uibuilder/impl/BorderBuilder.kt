@@ -1,6 +1,7 @@
 package com.stochastictinkr.skywing.uibuilder.impl
 
 import com.stochastictinkr.skywing.uibuilder.BorderConfig
+import com.stochastictinkr.skywing.uibuilder.BorderConfigSansTitled
 import com.stochastictinkr.skywing.uibuilder.ColorConfig
 import com.stochastictinkr.skywing.uibuilder.EtchedConfig
 import com.stochastictinkr.skywing.uibuilder.FontConfig
@@ -42,7 +43,7 @@ private class BorderBuilder : BorderConfig {
 
 
 private class TitledBorderBuilder(val title: String, val builder: BorderBuilder = BorderBuilder()) : TitledBorderConfig,
-    com.stochastictinkr.skywing.uibuilder.BorderConfigSansTitled by builder {
+    BorderConfigSansTitled by builder {
     val border: Border
         get() {
             return TitledBorder(

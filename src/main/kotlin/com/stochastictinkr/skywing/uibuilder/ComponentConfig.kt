@@ -9,7 +9,6 @@ import javax.swing.JLabel
 @UiBuilderDsl
 interface ComponentConfig {
     fun size(dimension: Dimension)
-
     fun minimumSize(dimension: Dimension)
     fun maximumSize(dimension: Dimension)
     fun preferredSize(dimension: Dimension)

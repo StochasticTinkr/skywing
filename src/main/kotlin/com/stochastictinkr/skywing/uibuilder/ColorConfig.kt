@@ -8,6 +8,6 @@ interface ColorConfig {
         rgb(red.toFloat(), green.toFloat(), blue.toFloat(), alpha.toFloat())
 
     fun hsb(hue: Float, saturation: Float, brightness: Float, alpha: Float = 1.0f)
-    fun hsb(hue: Number, saturation: Float, brightness: Float, alpha: Number = 1.0f) =
+    fun hsb(hue: Number, saturation: Number, brightness: Number, alpha: Number = 1.0f) =
         hsb(hue.toFloat(), saturation.toFloat(), brightness.toFloat(), alpha.toFloat())
 }

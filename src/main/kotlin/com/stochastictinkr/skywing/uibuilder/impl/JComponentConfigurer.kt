@@ -10,6 +10,8 @@ import javax.swing.border.Border
 internal fun jComponentConfigurer(): Configurer<JComponentConfig, JComponent> =
     JComponentConfigurer().asConfigurer { component ->
         componentConfigurer.configure(component)
+        alignmentX?.let { component.alignmentX = it }
+        alignmentY?.let { component.alignmentY = it }
         component.border = border
         component.toolTipText = toolTipText
     }
@@ -33,6 +35,22 @@ private class JComponentConfigurer(
 ) : JComponentConfig, ComponentConfig by componentConfigurer.config {
     var toolTipText: String? = null
     var border: Border? = null
+
+    var alignmentX: Float? = null
+    var alignmentY: Float? = null
+    override fun alignmentX(weight: Float) {
+        alignmentX = weight
+    }
+
+    override fun alignmentY(weight: Float) {
+        alignmentY = weight
+    }
+
+    override fun alignment(xWeight: Float, yWeight: Float) {
+        alignmentX(xWeight)
+        alignmentY(yWeight)
+    }
+
     override fun border(border: Border?) {
         this.border = border
     }
