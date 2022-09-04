@@ -1,5 +1,6 @@
 package com.stochastictinkr.skywing.rendering
 
+import com.stochastictinkr.skywing.by
 import java.awt.Font
 import java.awt.FontMetrics
 import java.awt.Graphics2D
@@ -12,6 +13,7 @@ import java.awt.geom.Point2D.Double as Point
 import java.awt.geom.Rectangle2D.Double as Rectangle
 
 data class PaintContext(val g: Graphics2D, val width: Int, val height: Int) {
+    val size = width by height
     fun renderingHint(hint: Hint) {
         g.setRenderingHint(hint.key, hint.value)
     }
@@ -21,6 +23,7 @@ data class PaintContext(val g: Graphics2D, val width: Int, val height: Int) {
     }
 
     fun renderingHints(
+        n: Unit = Unit,
         rendering: Rendering? = null,
         antialiasing: Antialiasing? = null,
         textAntialiasing: TextAntialiasing? = null,

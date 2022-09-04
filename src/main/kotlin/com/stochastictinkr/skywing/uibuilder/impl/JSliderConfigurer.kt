@@ -21,9 +21,12 @@ internal fun jSliderConfigurer(): Configurer<JSliderConfig, JSlider> =
         val onChange = onChange
         val onAdjusting = onAdjusting
         if (onChange != null || onAdjusting != null)
-            slider.model.addChangeListener {
-                val source = it.source as BoundedRangeModel
-                (if (source.valueIsAdjusting) onAdjusting else onChange)?.invoke(source.value)
+            slider.addChangeListener {
+                val source = it.source as JSlider
+                (if (source.valueIsAdjusting) onAdjusting else onChange)
+                    ?.let { listener ->
+                        source.listener(source.value)
+                    }
             }
     }
 
@@ -34,8 +37,8 @@ private class JSliderConfigurer(
     val boundedRangeModelBuilder: Builder<out BoundedRangeModelConfig, out BoundedRangeModel> = boundedRangeModelBuilder(),
 ) : JSliderConfig,
     JComponentConfig by jComponentConfigurer.config, BoundedRangeModelConfig by boundedRangeModelBuilder.config {
-    var onChange: ((Int) -> Unit)? = null
-    var onAdjusting: ((Int) -> Unit)? = null
+    var onChange: (JSlider.(Int) -> Unit)? = null
+    var onAdjusting: (JSlider.(Int) -> Unit)? = null
     var paintTicks: Boolean = false
     var paintTrack: Boolean = false
     var paintLabels: Boolean = false
@@ -81,11 +84,11 @@ private class JSliderConfigurer(
         snapToTicks = true
     }
 
-    override fun onChange(listener: (Int) -> Unit) {
+    override fun onChange(listener: JSlider.(Int) -> Unit) {
         onChange = listener
     }
 
-    override fun onAdjusting(listener: (Int) -> Unit) {
+    override fun onAdjusting(listener: JSlider.(Int) -> Unit) {
         onAdjusting = listener
     }
 

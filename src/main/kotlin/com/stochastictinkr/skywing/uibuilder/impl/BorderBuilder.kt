@@ -15,14 +15,16 @@ import javax.swing.border.LineBorder
 import javax.swing.border.SoftBevelBorder
 import javax.swing.border.TitledBorder
 
-internal fun buildBorder(init: BorderConfig.() -> Unit): Border? = BorderBuilder().apply(init).border
+internal fun <T> buildBorder(set: (Border?) -> Unit, init: BorderConfig.() -> T): T =
+    BorderBuilder().run {
+        init().also { set(border) }
+    }
 
 private class BorderBuilder : BorderConfig {
     var border: Border? = null
 
-    override fun titled(title: String, init: TitledBorderConfig.() -> Unit) {
-        border = TitledBorderBuilder(title).apply(init).border
-    }
+    override fun titled(title: String, init: TitledBorderConfig.() -> Unit): TitledBorder =
+        TitledBorderBuilder(title).apply(init).border.also { border = it }
 
     override fun line(color: Color, thickness: Int, rounded: Boolean) {
         border = LineBorder(color, thickness, rounded)
@@ -44,7 +46,7 @@ private class BorderBuilder : BorderConfig {
 
 private class TitledBorderBuilder(val title: String, val builder: BorderBuilder = BorderBuilder()) : TitledBorderConfig,
     BorderConfigSansTitled by builder {
-    val border: Border
+    val border: TitledBorder
         get() {
             return TitledBorder(
                 builder.border, title, 0, 0, font, textColor

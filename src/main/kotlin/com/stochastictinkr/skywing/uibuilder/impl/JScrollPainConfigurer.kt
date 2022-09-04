@@ -33,9 +33,8 @@ private class JScrollPainConfigurer(
         init()
     }
 
-    override fun viewportBorder(init: BorderConfig.() -> Unit) {
-        viewportBorder = buildBorder(init)
-    }
+    override fun <T> viewportBorder(init: BorderConfig.() -> T): T =
+        buildBorder({ viewportBorder = it }, init)
 
     override fun showHorizontalBar(init: JScrollPaneConfig.BarConfig.() -> Unit) {
         horizontalBarPolicy.init()

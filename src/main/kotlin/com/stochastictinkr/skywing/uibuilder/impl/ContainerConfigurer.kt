@@ -14,9 +14,14 @@ private class ContainerConfigurer(
     val items: MutableList<Container.() -> Unit> = mutableListOf(),
 ) : ManagedLayoutConfig, ComponentFactory by (addToItems(items)) {
 
-    override fun add(component: Component) {
-        items.add { add(component) }
+    override fun add(component: Component, constraints: Any?) {
+        items.add { add(component, constraints) }
     }
+
+    override fun <T> withConstraint(constraints: Any?, init: ComponentFactory.() -> T): T =
+        componentFactory { component -> items.add { add(component, constraints) } }.init()
+
+    override fun <T> components(init: ComponentFactory.() -> T): T = init()
 }
 
 private fun addToItems(items: MutableList<Container.() -> Unit>) =

@@ -55,9 +55,8 @@ private class JComponentConfigurer(
         this.border = border
     }
 
-    override fun border(init: com.stochastictinkr.skywing.uibuilder.BorderConfig.() -> Unit) {
-        border(buildBorder(init))
-    }
+    override fun <T> border(init: com.stochastictinkr.skywing.uibuilder.BorderConfig.() -> T): T =
+        buildBorder(::border, init)
 
     override fun toolTip(text: String) {
         toolTipText = text

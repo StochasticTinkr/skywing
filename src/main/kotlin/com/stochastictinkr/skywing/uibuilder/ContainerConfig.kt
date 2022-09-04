@@ -5,8 +5,9 @@ import java.awt.Component
 
 @UiBuilderDsl
 interface ContainerConfig {
-    fun add(component: Component)
-    fun <T> components(init: ContainerConfig.() -> T): T = init()
+    fun add(component: Component, constraints: Any? = null)
+    fun <T> withConstraint(constraints: Any? = null, init: ComponentFactory.() -> T):T
+    fun <T> components(init: ComponentFactory.() -> T): T
     fun <T> doNotAdd(init: ComponentFactory.() -> T): T = componentFactory { }.init()
 }
 

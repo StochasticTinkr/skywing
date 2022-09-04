@@ -10,7 +10,7 @@ interface JComponentConfig : ComponentConfig {
     fun alignment(xWeight: Float, yWeight: Float)
 
     fun border(border: Border?)
-    fun border(init: BorderConfig.() -> Unit)
+    fun <T> border(init: BorderConfig.() -> T):T
 
     fun toolTip(text: String)
 }

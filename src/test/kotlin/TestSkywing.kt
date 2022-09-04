@@ -1,7 +1,14 @@
 package com.stochastictinkr.skywing
 
+import com.stochastictinkr.skywing.rendering.Antialiasing
+import com.stochastictinkr.skywing.rendering.Rendering
 import com.stochastictinkr.skywing.uibuilder.frame
+import java.awt.BasicStroke
 import java.awt.Color
+import java.awt.event.ActionListener
+import javax.swing.Timer
+import kotlin.math.cos
+import kotlin.math.sin
 
 fun main() {
     initSkywing()
@@ -26,6 +33,7 @@ fun main() {
                         paintTrack()
                         paintLabels()
                     }
+                    var t = 0.0
                     custom {
                         alignmentX(.5f)
                         minimumSize(400 by 400)
@@ -34,10 +42,18 @@ fun main() {
                         background(Color.black)
                         foreground(Color(64, 16, 240))
                         painter {
-                            clear()
-                            line(0, 0, 25, 25)
-                            rectangle(200, 100, 350, 350)
+                            g.translate(width/2, height/2)
+                            g.rotate(t)
+                            g.translate(-width/2, -height/2)
+                            renderingHints(Rendering.QUALITY, Antialiasing.ON)
+                            line(0, 0, 25 + cos(t) * 5, 25 + sin(t) * 5)
+                            stroke = BasicStroke(3f)
+                            rectangle(200.5, 100, 350, 350.5)
                         }
+                    }.also { component ->
+                        Timer(1000/60, ActionListener { t += 0.1; component.repaint() }).apply {
+                            isRepeats = true
+                        }.start()
                     }
                     label {
                         alignmentX(.5f)
@@ -48,7 +64,7 @@ fun main() {
                         text("Hello Clouds")
                         textPosition { centerHorizontally(); bottom() }
                         alignment { centerHorizontally(); centerVertically() }
-                        toolTip("https://xkcd.com/2664/")
+                        toolTip("'Why did you get into fluid dynamics?' 'Well, SOME planet has to have the coolest clouds, odds are it's not ours, and rockets are slow.'")
                     }
                 }
             }
