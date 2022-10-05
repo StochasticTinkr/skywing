@@ -1,16 +1,13 @@
 package com.stochastictinkr.skywing.rendering
 
+import com.stochastictinkr.skywing.rendering.geom.by
+import com.stochastictinkr.skywing.hints.Hints
 import java.awt.BasicStroke
 import java.awt.Font
 import java.awt.FontMetrics
 import java.awt.Graphics2D
 import java.awt.Paint
 import java.awt.Shape
-import java.awt.geom.Point2D
-import kotlin.math.PI
-import java.awt.geom.Line2D.Double as Line
-import java.awt.geom.Point2D.Double as Point
-import java.awt.geom.Rectangle2D.Double as Rectangle
 
 @DslMarker
 annotation class PaintDsl
@@ -30,8 +27,9 @@ enum class StrokeJoin(internal val value: Int) {
 @PaintDsl
 data class PaintContext(val g: Graphics2D, val width: Int, val height: Int) {
     val size = width by height
-    var fill = true
     var paint: Paint? by g::paint
+
+    val hints = Hints(g)
 
     @PaintDsl
     interface StrokeConfig {
@@ -139,115 +137,12 @@ data class PaintContext(val g: Graphics2D, val width: Int, val height: Int) {
         this.paint = oldPaint
     }
 
-    fun draw(s: Shape) {
-        g.draw(s)
-    }
+    fun draw(s: Shape) = g.draw(s)
 
-    fun fill(s: Shape) {
-        g.fill(s)
-    }
+    fun fill(s: Shape) = g.fill(s)
 
-    private fun drawOrFill(s: Shape) {
-        if (fill) {
-            fill(s)
-        } else {
-            draw(s)
-        }
-    }
-
-    fun line(line: Line) = g.draw(line)
-    fun line(a: Point, b: Point) = line(a to b)
-    fun line(x1: Number, y1: Number, x2: Number, y2: Number) = line(x1 by y1, x2 by y2)
-
-    fun rectangle(line: Line) = drawOrFill(line.bounds2D)
-    fun rectangle(rectangle: Rectangle) = drawOrFill(rectangle)
-    fun rectangle(a: Point, b: Point) = drawOrFill(makeRectangle(a, b))
-    fun rectangle(x1: Number, y1: Number, x2: Number, y2: Number) = drawOrFill(makeRectangle(x1, y1, x2, y2))
-
-    fun makeRectangle(a: Point2D.Double, b: Point2D.Double) = Rectangle().apply { setFrameFromDiagonal(a, b) }
-
-    fun makeRectangle(x1: Number, y1: Number, x2: Number, y2: Number) =
-        Rectangle().apply { setFrameFromDiagonal(x1.toDouble(), y1.toDouble(), x2.toDouble(), y2.toDouble()) }
-
-    infix fun Point.to(b: Point) = Line(this, b)
-
-    infix fun Number.by(y: Number) = Point(this.toDouble(), y.toDouble())
-    fun makePoint(x: Number, y: Number) = Point(x.toDouble(), y.toDouble())
-
-    fun turtle(turtle: Turtle.() -> Unit) {
-        val oldStroke = g.stroke
-        val oldPaint = paint
-        val oldTransform = g.transform
-        Turtle(this).turtle()
-        g.stroke = oldStroke
-        g.transform = oldTransform
-        paint = oldPaint
-    }
-
-    fun renderingHint(hint: Hint) {
-        g.setRenderingHint(hint.key, hint.value)
-    }
-
-    fun renderingHints(
-        rendering: Rendering? = null,
-        antialiasing: Antialiasing? = null,
-        textAntialiasing: TextAntialiasing? = null,
-        fractionalMetrics: FractionalMetrics? = null,
-        textLcdContrast: TextLcdContrastHint? = null,
-        interpolation: Interpolation? = null,
-        alphaInterpolation: AlphaInterpolation? = null,
-        dithering: Dithering? = null,
-        colorRendering: ColorRendering? = null,
-        strokeControl: StrokeControl? = null,
-        resolutionVariant: ResolutionVariant? = null,
-    ) {
-        listOfNotNull(
-            rendering,
-            antialiasing,
-            textAntialiasing,
-            fractionalMetrics,
-            textLcdContrast,
-            interpolation,
-            alphaInterpolation,
-            dithering,
-            colorRendering,
-            strokeControl,
-            resolutionVariant
-        ).forEach(::renderingHint)
-    }
-
-    @PaintDsl
-    class Turtle(private val context: PaintContext) {
-        private var angleScale = 1.0
-        private val g by context::g
-        var paint by context::paint
-        fun stroke(init: StrokeConfig.() -> Unit) = context.stroke(init)
-        fun modifyStroke(init: StrokeConfig.() -> Unit) = context.modifyStroke(init)
-
-        fun move(distance: Number = 1.0) {
-            g.translate(0.0, distance.toDouble())
-        }
-
-        fun line(distance: Number = 1.0) {
-            context.line(0, 0, 0, distance)
-            g.translate(0.0, distance.toDouble())
-        }
-
-        fun degrees() {
-            angleScale = PI / 180.0
-        }
-
-        fun radians() {
-            angleScale = 1.0
-        }
-
-        fun turnLeft(angle: Double) {
-            g.rotate(-angle * angleScale)
-        }
-
-        fun turnRight(angle: Double) {
-            g.rotate(angle * angleScale)
-        }
+    fun hints(config: Hints.() -> Unit) {
+        hints.config()
     }
 }
 

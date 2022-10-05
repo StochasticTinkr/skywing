@@ -21,9 +21,3 @@ fun initSkywing() {
 fun invokeLater(run: Runnable) = EventQueue.invokeLater(run)
 fun invokeAndWait(run: Runnable) = EventQueue.invokeAndWait(run)
 val isEventDispatchThread get() = EventQueue.isDispatchThread()
-
-infix fun Int.by(height: Int) = Dimension(this, height)
-
-infix fun Point2D.to(other: Point2D) = Line2D.Double(this, other)
-infix fun Dimension.at(point: Point) = Rectangle(point, this)
-infix fun Dimension2D.at(point: Point2D): Rectangle2D = Rectangle2D.Double().also { it.setFrame(point, this) }
