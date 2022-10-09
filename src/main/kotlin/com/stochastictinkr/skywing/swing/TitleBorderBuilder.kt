@@ -26,6 +26,8 @@ class TitleBorderBuilder {
         this.font = font
         this.color = color
         this.border = border
+        this.justification = justification
+        this.position = position
     }
 
     companion object {
