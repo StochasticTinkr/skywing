@@ -42,7 +42,7 @@ class Hints(
         antialiasing = Antialiasing.ON
     }
 
-    fun antialiasingOf() {
+    fun antialiasingOff() {
         antialiasing = Antialiasing.OFF
     }
 

@@ -22,3 +22,11 @@ fun JPopupMenu.addItem(action: Action? = null, init: JMenuItem.() -> Unit = {}) 
     add(makeMenuItem(action, init))
 }
 
+fun JMenu.addMenu(action: Action? = null, init: JMenu.() -> Unit = {}) {
+    add(makeMenu(action, init))
+}
+
+fun JMenu.addItem(action: Action? = null, init: JMenuItem.() -> Unit = {}) {
+    add(makeMenuItem(action, init))
+}
+
