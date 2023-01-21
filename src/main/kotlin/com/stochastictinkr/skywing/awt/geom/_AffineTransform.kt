@@ -3,6 +3,7 @@ package com.stochastictinkr.skywing.awt.geom
 import java.awt.Shape
 import java.awt.geom.AffineTransform
 import java.awt.geom.Area
+import java.awt.geom.Line2D
 import java.awt.geom.Path2D
 import java.awt.geom.Point2D
 
@@ -14,8 +15,15 @@ operator fun <T : Transformable<T>> AffineTransform.invoke(transformable: Transf
     transformable.transform(this)
 
 operator fun AffineTransform.invoke(point: Point2D): Point2D = transform(point, Point2D.Double())
+operator fun AffineTransform.invoke(line: Line2D): Line2D =
+    doubleArrayOf(line.x1, line.y1, line.x2, line.y2)
+        .let { pts ->
+            transform(pts, 0, pts, 0, 2)
+            line(pts[0], pts[1], pts[2], pts[3])
+        }
+
 operator fun AffineTransform.invoke(shape: Shape): Shape = Path2D.Double(shape, this)
-operator fun AffineTransform.invoke(area: Area): Shape = area.createTransformedArea(this)
+operator fun AffineTransform.invoke(area: Area): Area = area.createTransformedArea(this)
 
 @JvmName("transformEach")
 fun <T : Transformable<T>> Iterable<T>.map(transform: AffineTransform) = map { transform(it) }

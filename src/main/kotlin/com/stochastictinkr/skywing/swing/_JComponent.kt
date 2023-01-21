@@ -1,5 +1,6 @@
 package com.stochastictinkr.skywing.swing
 
+import javax.swing.InputMap
 import javax.swing.JComponent
 import javax.swing.JPopupMenu
 import javax.swing.border.Border

@@ -5,4 +5,6 @@ import java.awt.geom.RoundRectangle2D
 
 fun roundRectangle(builder: RoundRectangle2D.() -> Unit) = RoundRectangle2D.Double().apply(builder)
 
-fun RectangularShape.asRoundRectangle() = roundRectangle { frame = this@asRoundRectangle.frame }
+fun RectangularShape.asRoundRectangle() = also {
+    roundRectangle { frame = it.frame }
+}

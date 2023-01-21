@@ -1,4 +1,4 @@
-package com.stochastictinkr.skywing.awt.hints
+package com.stochastictinkr.skywing.awt
 
 import com.stochastictinkr.skywing.hints.Hints
 import java.awt.RenderingHints

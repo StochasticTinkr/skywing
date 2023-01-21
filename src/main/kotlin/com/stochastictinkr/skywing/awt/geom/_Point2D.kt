@@ -44,9 +44,25 @@ val Point2D.unit get() = this / magnitude
 val Point2D.angle get() = Radians(atan2(y, x))
 fun Point2D.unitize() = this.divAssign(magnitude)
 
+operator fun Point.plus(other: Point) = point(x + other.x, y + other.y)
+operator fun Point.plusAssign(other: Point) = setLocation(x + other.x, y + other.y)
+operator fun Point.minus(other: Point) = point(x - other.x, y - other.y)
+operator fun Point.minusAssign(other: Point) = setLocation(x - other.x, y - other.y)
+operator fun Point.times(number: Int) = point(number.toDouble() * x, number.toDouble() * y)
+operator fun Point.timesAssign(number: Int) = setLocation(number.toDouble() * x, number.toDouble() * y)
+operator fun Int.times(point: Point) = point * this
+infix fun Point.dot(other: Point) = x * other.x + y * other.y
+infix fun Basis.dot(other: Point) = this(other)
+infix fun Point.dot(basis: Basis) = basis(this)
+val Point.angle get() = Radians(atan2(y.toDouble(), x.toDouble()))
 
 operator fun Point2D.component1() = x
 operator fun Point2D.component2() = y
 
 operator fun Point.component1() = x
 operator fun Point.component2() = y
+
+fun Point2D.toDouble() = point(x, y)
+fun Point2D.toFloat() = point(x.toFloat(), y.toFloat())
+fun Point2D.toInt() = point(x.toInt(), y.toInt())
+fun Point2D.toAngle() = Radians(atan2(y, x))

@@ -26,6 +26,9 @@ class Hints(
     var strokeControl: StrokeControl by hint(StrokeControl.DEFAULT)
     var resolutionVariant: ResolutionVariant by hint(ResolutionVariant.DEFAULT)
 
+    fun set(key: RenderingHints.Key, value: Any?) = setHint(key, value)
+    fun get(key: RenderingHints.Key) = getHint(key)
+
     fun renderingSpeed() {
         rendering = Rendering.SPEED
     }
