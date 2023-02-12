@@ -11,4 +11,4 @@ fun rectangle(start: Point2D, size: Dimension2D) = rectangle { setFrame(start, s
 fun rectangle(x1: Number, y1: Number, x2: Number, y2: Number) =
     rectangle { setFrameFromDiagonal(x1.toDouble(), y1.toDouble(), x2.toDouble(), y2.toDouble()) }
 
-val Rectangle2D.size get() = Dimension().apply { setSize(width, height) }
+val Rectangle2D.size get() = Dimension(width.toInt(), height.toInt())
