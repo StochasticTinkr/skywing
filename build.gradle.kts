@@ -22,12 +22,19 @@ kotlin {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 java {
     withSourcesJar()
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
+    sourceArtifacts(kotlin("stdlib"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
+    testImplementation("io.mockk:mockk:1.13.4")
 }
 
