@@ -1,3 +1,4 @@
+
 package com.stochastictinkr.skywing.awt.geom
 
 import java.awt.Shape
@@ -6,8 +7,18 @@ import java.awt.geom.Area
 import java.awt.geom.Line2D
 import java.awt.geom.Path2D
 import java.awt.geom.Point2D
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
-inline fun makeTransform(init: AffineTransform.() -> Unit) = AffineTransform().apply(init)
+@OptIn(ExperimentalContracts::class)
+inline fun makeTransform(init: AffineTransform.() -> Unit): AffineTransform {
+    contract {
+        callsInPlace(init, InvocationKind.EXACTLY_ONCE)
+    }
+
+    return AffineTransform().apply(init)
+}
 
 operator fun AffineTransform.plusAssign(other: AffineTransform) = this.concatenate(other)
 
@@ -28,42 +39,24 @@ operator fun AffineTransform.invoke(area: Area): Area = area.createTransformedAr
 @JvmName("transformEach")
 fun <T : Transformable<T>> Iterable<T>.map(transform: AffineTransform) = map { transform(it) }
 
-@JvmName("transformPoint")
+@JvmName("transformPoints")
 fun Iterable<Point2D>.map(transform: AffineTransform) = map { transform(it) }
 
 
-@JvmName("transformArea")
+@JvmName("transformAreas")
 fun Iterable<Area>.map(transform: AffineTransform) = map { transform(it) }
 
-@JvmName("transformShape")
+@JvmName("transformShapes")
 fun Iterable<Shape>.map(transform: AffineTransform) = map { transform(it) }
-fun <T> Iterable<T>.mapTransformable(transform: AffineTransform) = mapNotNull {
-    when (it) {
-        is Point2D -> transform(it)
-        is Area -> transform(it)
-        is Shape -> transform(it)
-        is Transformable<*> -> transform(it)
-        else -> null
-    }
-}
 
 @JvmName("transformEach")
 fun <T : Transformable<T>> Sequence<T>.map(transform: AffineTransform) = map { transform(it) }
 
-@JvmName("transformPoint")
+@JvmName("transformPoints")
 fun Sequence<Point2D>.map(transform: AffineTransform) = map { transform(it) }
 
-@JvmName("transformShape")
+@JvmName("transformShapes")
 fun Sequence<Shape>.map(transform: AffineTransform) = map { transform(it) }
 
-@JvmName("transformArea")
+@JvmName("transformAreas")
 fun Sequence<Area>.map(transform: AffineTransform) = map { transform(it) }
-
-fun <T> Sequence<T>.mapTransformable(transform: AffineTransform) = mapNotNull {
-    when (it) {
-        is Point2D -> transform(it)
-        is Shape -> transform(it)
-        is Transformable<*> -> transform(it)
-        else -> null
-    }
-}
