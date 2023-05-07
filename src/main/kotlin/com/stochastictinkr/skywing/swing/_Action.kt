@@ -67,33 +67,30 @@ private class ActionKey<T>(private val name: String, private val default: T) {
     }
 }
 
-/**
- * @param [name] Initial value associated with the [Action.NAME].
- * @param [smallIcon] Initial value associated with the [Action.SMALL_ICON].
- * @param [largeIcon] Initial value associated with the [Action.LARGE_ICON_KEY].
- * @param [shortDescription] Initial value associated with the [Action.SHORT_DESCRIPTION].
- * @param [longDescription] Initial value associated with the [Action.LONG_DESCRIPTION].
- * @param [actionCommand] Initial value associated with the [Action.ACTION_COMMAND_KEY].
- * @param [accelerator] Initial value associated with the [Action.ACCELERATOR_KEY].
- * @param [mnemonicKeyCode] Initial value associated with the [Action.MNEMONIC_KEY].
- * @param [isSelected] Initial value associated with the [Action.SELECTED_KEY].
- * @param [displayedMnemonicIndex] Initial value associated with the [Action.DISPLAYED_MNEMONIC_INDEX_KEY].
- * @param isEnabled Initial value of the [Action.isEnabled] property.
- * @param actionPerformed The code to execute to perform the action.
- *
- */
 fun action(
+    /** Initial value associated with the [Action.NAME].*/
     name: String? = null,
+    /** Initial value associated with the [Action.SMALL_ICON].*/
     smallIcon: Icon? = null,
+    /** Initial value associated with the [Action.LARGE_ICON_KEY].*/
     largeIcon: Icon? = null,
+    /** Initial value associated with the [Action.SHORT_DESCRIPTION].*/
     shortDescription: String? = null,
+    /** Initial value associated with the [Action.LONG_DESCRIPTION].*/
     longDescription: String? = null,
+    /** Initial value associated with the [Action.ACTION_COMMAND_KEY].*/
     actionCommand: String? = null,
+    /** Initial value associated with the [Action.ACCELERATOR_KEY].*/
     accelerator: KeyStroke? = null,
+    /** Initial value associated with the [Action.MNEMONIC_KEY].*/
     mnemonicKeyCode: Int? = null,
+    /** Initial value associated with the [Action.SELECTED_KEY].*/
     isSelected: Boolean = false,
+    /** Initial value associated with the [Action.DISPLAYED_MNEMONIC_INDEX_KEY].*/
     displayedMnemonicIndex: Int? = null,
+    /** Initial value of the [Action.isEnabled] property.*/
     isEnabled: Boolean = true,
+    /** The code to execute to perform the action.*/
     actionPerformed: (ActionEvent) -> Unit = {},
 ): Action = ActionImpl(actionPerformed).apply {
     this.name = name
