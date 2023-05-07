@@ -1,4 +1,3 @@
-
 package com.stochastictinkr.skywing.awt.geom
 
 import java.awt.Shape
@@ -37,11 +36,13 @@ operator fun AffineTransform.invoke(shape: Shape): Shape = Path2D.Double(shape, 
 operator fun AffineTransform.invoke(area: Area): Area = area.createTransformedArea(this)
 
 @JvmName("transformEach")
-fun <T : Transformable<T>> Iterable<T>.map(transform: AffineTransform) = map { transform(it) }
+fun <T : Transformable<T>> Iterable<Transformable<T>>.map(transform: AffineTransform) = map { transform(it) }
 
 @JvmName("transformPoints")
 fun Iterable<Point2D>.map(transform: AffineTransform) = map { transform(it) }
 
+@JvmName("transformLines")
+fun Iterable<Line2D>.map(transform: AffineTransform) = map { transform(it) }
 
 @JvmName("transformAreas")
 fun Iterable<Area>.map(transform: AffineTransform) = map { transform(it) }
@@ -50,10 +51,13 @@ fun Iterable<Area>.map(transform: AffineTransform) = map { transform(it) }
 fun Iterable<Shape>.map(transform: AffineTransform) = map { transform(it) }
 
 @JvmName("transformEach")
-fun <T : Transformable<T>> Sequence<T>.map(transform: AffineTransform) = map { transform(it) }
+fun <T : Transformable<T>> Sequence<Transformable<T>>.map(transform: AffineTransform) = map { transform(it) }
 
 @JvmName("transformPoints")
 fun Sequence<Point2D>.map(transform: AffineTransform) = map { transform(it) }
+
+@JvmName("transformLines")
+fun Sequence<Line2D>.map(transform: AffineTransform) = map { transform(it) }
 
 @JvmName("transformShapes")
 fun Sequence<Shape>.map(transform: AffineTransform) = map { transform(it) }
