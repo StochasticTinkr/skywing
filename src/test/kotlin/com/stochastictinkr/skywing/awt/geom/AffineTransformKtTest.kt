@@ -119,38 +119,186 @@ internal class AffineTransformKtTest {
 
     @Test
     fun `transformPoints(Iterable)`() {
+        val transform = mockk<AffineTransform>()
+        val list = List<Point2D>(5) { mockk() }
+        val resultObjects = List<Point2D>(5) { mockk() }
+        list.indices.forEach {
+            every { transform.transform(list[it], any()) } returns resultObjects[it]
+        }
+        val result = list.map(transform)
+
+        assertEquals(list.size, result.size)
+
+        result.indices.forEach { idx ->
+            assertSame(resultObjects[idx], result[idx])
+        }
+
+        list.forEach {
+            verify(exactly = 1) { transform.transform(it, any()) }
+        }
+
     }
 
     @Test
     fun `transformLines(Iterable)`() {
+        val transform = makeTransform() {
+            scale(2.0, 3.0)
+        }
+        val list = List(5) {
+            it.toDouble().let { x1 ->
+                line(x1, x1, x1, x1)
+            }
+        }
+
+        val result = list.map(transform)
+
+        assertEquals(list.size, result.size)
+
+        result.indices.forEach { idx ->
+            assertPathsAreEqual(list[idx].getPathIterator(transform), result[idx].getPathIterator(null))
+        }
     }
 
     @Test
     fun `transformAreas(Iterable)`() {
+        val transform = makeTransform() {
+            scale(2.0, 3.0)
+        }
+        val list = List<Area>(5) {
+            it.toDouble().let { x1 ->
+                Area(rectangle(x1, x1 * 2, x1 * 3, x1 * 4))
+            }
+        }
+
+        val result = list.map(transform)
+
+        assertEquals(list.size, result.size)
+
+        result.indices.forEach { idx ->
+            assertPathsAreEqual(list[idx].getPathIterator(transform), result[idx].getPathIterator(null))
+        }
+
     }
 
     @Test
     fun `transformShapes(Iterable)`() {
+        val transform = makeTransform() {
+            scale(2.0, 3.0)
+        }
+        val list = List<Shape>(5) {
+            it.toDouble().let { x1 ->
+                line(x1, x1, x1, x1)
+            }
+        }
+
+        val result = list.map(transform)
+
+        assertEquals(list.size, result.size)
+
+        result.indices.forEach { idx ->
+            assertPathsAreEqual(list[idx].getPathIterator(transform), result[idx].getPathIterator(null))
+        }
     }
 
     @Test
     fun `transformEach(Sequence)`() {
+        val transform = mockk<AffineTransform>()
+        val list = List<Transformable<*>>(5) { mockk() }
+        val resultObjects = List<Transformable<*>>(5) { mockk() }
+        list.indices.forEach {
+            every { list[it].transform(transform) } returns resultObjects[it]
+        }
+        val result = list.asSequence().map(transform).toList()
+
+        result.indices.forEach { idx ->
+            assertSame(resultObjects[idx], result[idx])
+        }
+
+        list.forEach {
+            verify(exactly = 1) { it.transform(transform) }
+        }
+
     }
 
     @Test
     fun `transformPoints(Sequence)`() {
+        val transform = mockk<AffineTransform>()
+        val list = List<Point2D>(5) { mockk() }
+        val resultObjects = List<Point2D>(5) { mockk() }
+        list.indices.forEach {
+            every { transform.transform(list[it], any()) } returns resultObjects[it]
+        }
+        val result = list.asSequence().map(transform).toList()
+
+        assertEquals(list.size, result.size)
+
+        result.indices.forEach { idx ->
+            assertSame(resultObjects[idx], result[idx])
+        }
+
+        list.forEach {
+            verify(exactly = 1) { transform.transform(it, any()) }
+        }
     }
 
     @Test
     fun `transformLines(Sequence)`() {
+        val transform = makeTransform() {
+            scale(2.0, 3.0)
+        }
+        val list = List(5) {
+            it.toDouble().let { x1 ->
+                line(x1, x1, x1, x1)
+            }
+        }
+
+        val result = list.asSequence().map(transform).toList()
+
+        assertEquals(list.size, result.size)
+
+        result.indices.forEach { idx ->
+            assertPathsAreEqual(list[idx].getPathIterator(transform), result[idx].getPathIterator(null))
+        }
     }
 
     @Test
     fun `transformShapes(Sequence)`() {
+        val transform = makeTransform() {
+            scale(2.0, 3.0)
+        }
+        val list = List<Shape>(5) {
+            it.toDouble().let { x1 ->
+                line(x1, x1, x1, x1)
+            }
+        }
+
+        val result = list.asSequence().map(transform).toList()
+
+        assertEquals(list.size, result.size)
+
+        result.indices.forEach { idx ->
+            assertPathsAreEqual(list[idx].getPathIterator(transform), result[idx].getPathIterator(null))
+        }
     }
 
     @Test
     fun `transformAreas(Sequence)`() {
+        val transform = makeTransform() {
+            scale(2.0, 3.0)
+        }
+        val list = List<Area>(5) {
+            it.toDouble().let { x1 ->
+                Area(rectangle(x1, x1 * 2, x1 * 3, x1 * 4))
+            }
+        }
+
+        val result = list.asSequence().map(transform).toList()
+
+        assertEquals(list.size, result.size)
+
+        result.indices.forEach { idx ->
+            assertPathsAreEqual(list[idx].getPathIterator(transform), result[idx].getPathIterator(null))
+        }
     }
 }
 
