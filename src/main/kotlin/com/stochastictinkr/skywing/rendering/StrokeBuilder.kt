@@ -53,17 +53,17 @@ data class StrokeBuilder(
 
     fun asBasicStroke() = BasicStroke(
         width,
-        endCap.value,
-        lineJoin.value,
+        endCap.ordinal,
+        lineJoin.ordinal,
         miterLimit,
-        if (dashPattern.isEmpty()) null else dashPattern.toFloatArray(),
+        dashPattern.takeUnless { it.isEmpty() }?.toFloatArray(),
         dashPhase
     )
 
     fun fromBasicStroke(basicStroke: BasicStroke) {
         this.width = basicStroke.lineWidth
-        this.endCap = StrokeCap.values().first { it.value == basicStroke.endCap }
-        this.lineJoin = StrokeJoin.values().first { it.value == basicStroke.lineJoin }
+        this.endCap = StrokeCap.entries[basicStroke.endCap]
+        this.lineJoin = StrokeJoin.entries[basicStroke.lineJoin]
         this.miterLimit = basicStroke.miterLimit
         this.dashPattern = basicStroke.dashArray?.toMutableList() ?: mutableListOf()
         this.dashPhase = basicStroke.dashPhase

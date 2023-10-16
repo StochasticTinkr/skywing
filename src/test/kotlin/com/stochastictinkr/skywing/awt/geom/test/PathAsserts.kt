@@ -5,16 +5,16 @@ import java.awt.geom.PathIterator
 
 fun assertPathsAreEqual(expectedPath: PathIterator, actualPath: PathIterator) {
     while (!actualPath.isDone && !expectedPath.isDone) {
-        val expectedCoords = DoubleArray(6)
-        val expectedType = expectedPath.currentSegment(expectedCoords)
+        val expectedCords = DoubleArray(6)
+        val expectedType = expectedPath.currentSegment(expectedCords)
         expectedPath.next()
 
-        val actualCoords = DoubleArray(6)
-        val actualType = actualPath.currentSegment(actualCoords)
+        val actualCords = DoubleArray(6)
+        val actualType = actualPath.currentSegment(actualCords)
         actualPath.next()
 
         Assertions.assertEquals(expectedType, actualType, "Incorrect type of segment in path")
-        Assertions.assertArrayEquals(expectedCoords, actualCoords, "Incorrect coordinates for segment")
+        Assertions.assertArrayEquals(expectedCords, actualCords, "Incorrect coordinates for segment")
     }
     Assertions.assertEquals(expectedPath.isDone, actualPath.isDone, "Different length of paths")
 }

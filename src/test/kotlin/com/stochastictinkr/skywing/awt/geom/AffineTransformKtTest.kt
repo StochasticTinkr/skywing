@@ -1,6 +1,13 @@
 package com.stochastictinkr.skywing.awt.geom
 
 import com.stochastictinkr.skywing.awt.geom.test.assertPathsAreEqual
+import com.stochastictinkr.skywing.geom.Transformable
+import com.stochastictinkr.skywing.geom.affineTransform
+import com.stochastictinkr.skywing.geom.invoke
+import com.stochastictinkr.skywing.geom.line
+import com.stochastictinkr.skywing.geom.map
+import com.stochastictinkr.skywing.geom.plusAssign
+import com.stochastictinkr.skywing.geom.rectangle
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -19,7 +26,7 @@ internal class AffineTransformKtTest {
     @Test
     fun makeTransform() {
         val body: AffineTransform
-        val result = makeTransform {
+        val result = affineTransform {
             body = this
         }
         assertSame(body, result)
@@ -61,7 +68,7 @@ internal class AffineTransformKtTest {
 
     @Test
     fun `invoke(Line2D)`() {
-        val affineTransform = makeTransform {
+        val affineTransform = affineTransform {
             translate(4.0, 4.0)
         }
         val line: Line2D = line(1.0, 2.0, 3.0, 4.0)
@@ -75,7 +82,7 @@ internal class AffineTransformKtTest {
     @Test
     fun `invoke(Shape)`() {
         val line: Shape = line(0.0, 1.0, 2.0, 3.0)
-        val result = makeTransform {
+        val result = affineTransform {
             translate(10.0, 15.0)
         }(line)
         val expectedPath = line(10.0, 16.0, 12.0, 18.0).getPathIterator(null)
@@ -86,7 +93,7 @@ internal class AffineTransformKtTest {
 
     @Test
     fun `invoke(Area)`() {
-        val transform = makeTransform {
+        val transform = affineTransform {
             this.shear(1.0, 2.0)
         }
         val shape: Shape = rectangle(0, 1, 10, 12)
@@ -141,7 +148,7 @@ internal class AffineTransformKtTest {
 
     @Test
     fun `transformLines(Iterable)`() {
-        val transform = makeTransform() {
+        val transform = affineTransform {
             scale(2.0, 3.0)
         }
         val list = List(5) {
@@ -161,10 +168,10 @@ internal class AffineTransformKtTest {
 
     @Test
     fun `transformAreas(Iterable)`() {
-        val transform = makeTransform() {
+        val transform = affineTransform {
             scale(2.0, 3.0)
         }
-        val list = List<Area>(5) {
+        val list = List(5) {
             it.toDouble().let { x1 ->
                 Area(rectangle(x1, x1 * 2, x1 * 3, x1 * 4))
             }
@@ -182,7 +189,7 @@ internal class AffineTransformKtTest {
 
     @Test
     fun `transformShapes(Iterable)`() {
-        val transform = makeTransform() {
+        val transform = affineTransform {
             scale(2.0, 3.0)
         }
         val list = List<Shape>(5) {
@@ -243,7 +250,7 @@ internal class AffineTransformKtTest {
 
     @Test
     fun `transformLines(Sequence)`() {
-        val transform = makeTransform() {
+        val transform = affineTransform {
             scale(2.0, 3.0)
         }
         val list = List(5) {
@@ -263,7 +270,7 @@ internal class AffineTransformKtTest {
 
     @Test
     fun `transformShapes(Sequence)`() {
-        val transform = makeTransform() {
+        val transform = affineTransform {
             scale(2.0, 3.0)
         }
         val list = List<Shape>(5) {
@@ -283,10 +290,10 @@ internal class AffineTransformKtTest {
 
     @Test
     fun `transformAreas(Sequence)`() {
-        val transform = makeTransform() {
+        val transform = affineTransform {
             scale(2.0, 3.0)
         }
-        val list = List<Area>(5) {
+        val list = List(5) {
             it.toDouble().let { x1 ->
                 Area(rectangle(x1, x1 * 2, x1 * 3, x1 * 4))
             }

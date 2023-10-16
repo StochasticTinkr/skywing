@@ -1,7 +1,17 @@
 plugins {
-    kotlin("jvm") version "1.7.10"
-    id("maven-publish")
+    kotlin("jvm") version "1.9.10"
+    `java-library`
+    `maven-publish`
+    idea
 }
+
+idea {
+    module {
+        isDownloadSources = true
+        isDownloadJavadoc = true
+    }
+}
+
 publishing {
     publications {
         create<MavenPublication>(project.name) {
@@ -11,19 +21,19 @@ publishing {
 }
 
 group = "com.stochastictinkr"
-version = "1.0-SNAPSHOT"
+version = "0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
+kotlin.jvmToolchain(17)
+
+kotlin.compilerOptions {
+    optIn.add("kotlin.contracts.ExperimentalContracts")
 }
 
-tasks.withType<Test> {
+tasks.test {
     useJUnitPlatform()
 }
 
@@ -33,7 +43,7 @@ java {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    sourceArtifacts(kotlin("stdlib"))
+    implementation(kotlin("reflect"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
     testImplementation("io.mockk:mockk:1.13.4")
 }
