@@ -117,7 +117,7 @@ data class SettingsLayoutBuilder(val container: Container) {
     }
 
     fun checkbox(
-        checkbox: JCheckBox = checkbox().apply {
+        checkbox: JCheckBox = jCheckBox().apply {
             horizontalTextPosition = SwingConstants.LEADING
         },
         property: ObservableProperty<Boolean>,

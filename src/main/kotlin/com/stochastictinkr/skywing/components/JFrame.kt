@@ -1,9 +1,5 @@
 package com.stochastictinkr.skywing.components
 
-import com.stochastictinkr.skywing.utils.Disposable
-import java.awt.Window
-import java.awt.event.WindowAdapter
-import java.awt.event.WindowEvent
 import javax.swing.JFrame
 
 

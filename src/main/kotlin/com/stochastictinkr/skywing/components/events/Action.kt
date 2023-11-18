@@ -107,6 +107,9 @@ fun action(
     this.displayedMnemonicIndex = displayedMnemonicIndex
 }
 
+/**
+ * Creates an action and associates it to this button.
+ */
 fun AbstractButton.withAction(
     /** Initial value associated with the [Action.NAME].*/
     name: String? = null,

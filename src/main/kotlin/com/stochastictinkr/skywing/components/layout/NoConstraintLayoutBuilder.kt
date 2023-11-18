@@ -6,6 +6,9 @@ import java.awt.Container
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
+/**
+ * A simple wrapper around [Container] where the layout manager doesn't require constraints.
+ */
 @JvmInline
 value class NoConstraintLayoutBuilder(val container: Container) {
 

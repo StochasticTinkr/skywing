@@ -1,5 +1,6 @@
 package com.stochastictinkr.skywing.components
 
+import com.stochastictinkr.skywing.utils.Init
 import javax.swing.Action
 import javax.swing.JMenu
 import javax.swing.JMenuBar
@@ -9,52 +10,104 @@ import javax.swing.RootPaneContainer
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-inline fun makeMenuBar(init: JMenuBar.() -> Unit): JMenuBar {
+/**
+ * Create a [JMenuBar] and initialize it.
+ */
+inline fun makeMenuBar(init: Init<JMenuBar> = {}): JMenuBar {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
     return JMenuBar().apply(init)
 }
 
-inline fun makeMenu(action: Action? = null, init: JMenu.() -> Unit = {}): JMenu {
+/**
+ * Create a [JMenu] and initialize it.
+ * @param action An optional action to associate with this menu. See [JMenu.action].
+ * @param text An optional text value to
+ */
+inline fun makeMenu(action: Action? = null, text: String? = null, init: Init<JMenu> = {}): JMenu {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
-    return JMenu(action).apply(init)
+    return JMenu(action).apply {
+        text?.let(::setText)
+        init()
+    }
 }
 
-inline fun makePopupMenu(init: JPopupMenu.() -> Unit = {}): JPopupMenu {
+/**
+ * Create a [JPopupMenu] and initialize it.
+ */
+inline fun makePopupMenu(init: Init<JPopupMenu> = {}): JPopupMenu {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
     return JPopupMenu().apply(init)
 }
 
-inline fun makeMenuItem(action: Action? = null, init: JMenuItem.() -> Unit = {}): JMenuItem {
+/**
+ * Create a [JMenuItem] and initialize it.
+ * @param action An optional action to associate with this menu. See [JMenu.action].
+ */
+inline fun makeMenuItem(action: Action? = null, init: Init<JMenuItem> = {}): JMenuItem {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
     return JMenuItem(action).apply(init)
 }
 
-inline fun JMenuBar.addMenu(action: Action? = null, init: JMenu.() -> Unit = {}) {
+/**
+ * Add a [JMenu] to the menu bar, and initialize it.
+ * @param action An optional action to associate with this menu. See [JMenu.action].
+ */
+inline fun JMenuBar.menu(action: Action? = null, init: Init<JMenu> = {}) {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
-    add(makeMenu(action, init))
+    add(makeMenu(action) { init() })
 }
 
-inline fun JPopupMenu.addMenu(action: Action? = null, init: JMenu.() -> Unit = {}) {
+/**
+ * Add a [JMenu] to the popup menu, and initialize it.
+ * @param action An optional action to associate with this menu. See [JMenu.action].
+ */
+inline fun JPopupMenu.menu(action: Action? = null, init: Init<JMenu> = {}) {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
-    add(makeMenu(action, init))
+    add(makeMenu(action) { init() })
 }
 
-inline fun JPopupMenu.addItem(action: Action? = null, init: JMenuItem.() -> Unit = {}) {
+/**
+ * Add a [JMenu] to the menu, and initialize it.
+ * @param action An optional action to associate with this menu. See [JMenu.action].
+ */
+inline fun JMenu.menu(action: Action? = null, init: Init<JMenu> = {}) {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
-    add(makeMenuItem(action, init))
+    add(makeMenu(action) { init() })
 }
 
-inline fun JMenu.addMenu(action: Action? = null, init: JMenu.() -> Unit = {}) {
+
+
+/**
+ * Add a [JMenuItem] to the menu bar, and initialize it.
+ * @param action An optional action to associate with this menu. See [JMenu.action].
+ */
+inline fun JMenuBar.item(action: Action? = null, init: Init<JMenuItem> = {}) {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
-    add(makeMenu(action, init))
+    add(makeMenuItem(action) { init() })
 }
 
-inline fun JMenu.addItem(action: Action? = null, init: JMenuItem.() -> Unit = {}) {
+/**
+ * Add a [JMenuItem] to the popup menu, and initialize it.
+ * @param action An optional action to associate with this menu. See [JMenu.action].
+ */
+inline fun JPopupMenu.item(action: Action? = null, init: Init<JMenuItem> = {}) {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
-    add(makeMenuItem(action, init))
+    add(makeMenuItem(action) { init() })
 }
 
-inline fun RootPaneContainer.menuBar(init: JMenuBar.() -> Unit): JMenuBar {
+/**
+ * Add a [JMenuItem] to the menu, and initialize it.
+ * @param action An optional action to associate with this menu. See [JMenu.action].
+ */
+inline fun JMenu.item(action: Action? = null, init: Init<JMenuItem> = {}) {
+    contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
+    add(makeMenuItem(action) { init() })
+}
+
+/**
+ * Create a [JMenuBar], initialize it, and add it to this the root pane.
+ */
+inline fun RootPaneContainer.createMenuBar(init: Init<JMenuBar>): JMenuBar {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
     return makeMenuBar(init).also { rootPane.jMenuBar = it }
 }

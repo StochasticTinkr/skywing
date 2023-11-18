@@ -16,7 +16,7 @@ var Window.isFullScreen: Boolean
         }
     }
 
-inline fun Window.onClose(crossinline block: (WindowEvent) -> Unit): Disposable {
+inline fun Window.onWindowClosed(crossinline block: (WindowEvent) -> Unit): Disposable {
     val listener = object : WindowAdapter() {
         override fun windowClosed(e: WindowEvent) {
             block(e)

@@ -44,8 +44,8 @@ fun AffineTransform.copy(
     translateY = translateY
 )
 
-fun AffineTransform.rotateAround(angle: com.stochastictinkr.skywing.geom.Angle, point: Point2D) = rotate(angle.radians, point.x, point.y)
-fun AffineTransform.rotate(angle: com.stochastictinkr.skywing.geom.Angle) = rotate(angle.radians)
+fun AffineTransform.rotateAround(angle: Angle, point: Point2D) = rotate(angle.radians, point.x, point.y)
+fun AffineTransform.rotate(angle: Angle) = rotate(angle.radians)
 
 fun AffineTransform.component1() = scaleX
 fun AffineTransform.component2() = shearY

@@ -5,6 +5,9 @@ import java.awt.Font
 import javax.swing.border.Border
 import javax.swing.border.TitledBorder
 
+/**
+ * Create a titled border.
+ */
 fun titled(
     title: String? = null,
     border: Border? = null,
