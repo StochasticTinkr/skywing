@@ -1,8 +1,19 @@
 plugins {
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm")
     `java-library`
     `maven-publish`
     idea
+}
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+kotlin {
+    jvmToolchain(17)
+    compilerOptions {
+        optIn.add("kotlin.contracts.ExperimentalContracts")
+    }
 }
 
 idea {
@@ -23,26 +34,23 @@ publishing {
 group = "com.stochastictinkr"
 version = "0.1-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-}
-
-kotlin.jvmToolchain(17)
-
-kotlin.compilerOptions {
-    optIn.add("kotlin.contracts.ExperimentalContracts")
-}
-
-tasks.test {
-    useJUnitPlatform()
+allprojects {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
 }
 
 java {
     withSourcesJar()
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
+
 dependencies {
-    implementation(kotlin("stdlib"))
+    api(kotlin("stdlib"))
     implementation(kotlin("reflect"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
     testImplementation("io.mockk:mockk:1.13.4")

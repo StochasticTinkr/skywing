@@ -59,8 +59,8 @@ var BorderLayoutBuilder.lineEnd: Component? by At(BorderLayout.LINE_END)
  * See [Container.borderLayout]
  */
 @JvmInline
-value class BorderLayoutBuilder(val parent: Container) {
-    val borderLayout: BorderLayout get() = requireNotNull(parent.layout as? BorderLayout) { "Layout isn't BorderLayout" }
+value class BorderLayoutBuilder(val container: Container) {
+    val borderLayout: BorderLayout get() = requireNotNull(container.layout as? BorderLayout) { "Layout isn't BorderLayout" }
 
     /**
      * Set the component that will be constrained to the north. See [BorderLayout.NORTH]
@@ -147,16 +147,16 @@ value class BorderLayoutBuilder(val parent: Container) {
 @JvmInline
 private value class At(val place: String) {
     operator fun getValue(thisRef: BorderLayoutBuilder, property: KProperty<*>): Component? {
-        return synchronized(thisRef.parent.treeLock) {
-            thisRef.parent.components
+        return synchronized(thisRef.container.treeLock) {
+            thisRef.container.components
         }.find { thisRef.borderLayout.getConstraints(it) == place }
     }
 
     operator fun setValue(thisRef: BorderLayoutBuilder, property: KProperty<*>, value: Component?) {
         if (value == null) {
-            getValue(thisRef, property)?.let(thisRef.parent::remove)
+            getValue(thisRef, property)?.let(thisRef.container::remove)
         } else {
-            thisRef.parent.add(value, place)
+            thisRef.container.add(value, place)
         }
     }
 }
@@ -171,5 +171,5 @@ inline fun Container.borderLayout(
 ): BorderLayoutBuilder {
     contract { callsInPlace(addComponents, InvocationKind.EXACTLY_ONCE) }
     if (layout !is BorderLayout) layout = BorderLayout(hgap, vgap)
-    return BorderLayoutBuilder(parent).also(addComponents)
+    return BorderLayoutBuilder(this).also(addComponents)
 }
