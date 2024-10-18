@@ -1,10 +1,10 @@
 package com.stochastictinkr.skywing.awt.geom
 
 import com.stochastictinkr.skywing.components.addComponent
-import com.stochastictinkr.skywing.initSkywing
 import com.stochastictinkr.skywing.components.configureAndShow
 import com.stochastictinkr.skywing.components.mainFrame
 import com.stochastictinkr.skywing.components.settingsLayout
+import com.stochastictinkr.skywing.initSkywing
 import com.stochastictinkr.skywing.utils.asObservable
 import com.stochastictinkr.skywing.utils.observable
 import java.awt.BorderLayout

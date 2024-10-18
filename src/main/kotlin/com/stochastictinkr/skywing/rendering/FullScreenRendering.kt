@@ -25,7 +25,6 @@ fun fullScreenRendering(
     updateState: () -> Boolean = { true },
     painter: Painter,
 ) {
-    println("${painter}")
     EventQueue.invokeLater {
         object : Window(owner, graphicsConfiguration) {
             override fun paint(g: Graphics) {}

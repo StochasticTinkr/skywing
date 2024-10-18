@@ -1,68 +1,60 @@
 package com.stochastictinkr.skywing.components
 
-import com.stochastictinkr.skywing.geom.dimension
 import com.stochastictinkr.skywing.rendering.Painter
 import com.stochastictinkr.skywing.rendering.use
+import java.awt.Canvas
 import java.awt.Dimension
 import java.awt.Graphics
 import java.awt.Graphics2D
-import java.awt.image.BufferedImage
-import javax.swing.JComponent
-import javax.swing.border.AbstractBorder
-import javax.swing.border.Border
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
 
 class CustomComponent(
     preferredSize: Dimension? = null,
     minimumSize: Dimension? = preferredSize,
     maximumSize: Dimension? = null,
+    var isActiveRendering: Boolean = false,
     var painter: Painter = {},
-) : JComponent() {
+) : Canvas() {
 
     init {
         preferredSize?.let(::setPreferredSize)
         minimumSize?.let(::setMinimumSize)
         maximumSize?.let(::setMaximumSize)
-        isOpaque = true
     }
 
     fun painter(painter: Painter) {
         this.painter = painter
     }
 
-    override fun paintComponent(g: Graphics) {
-        var width = this.width
-        var height = this.height
-        if (isOpaque) {
+    override fun paint(g: Graphics) {
+        if (isActiveRendering) {
+            return
+        }
+        if (isOpaque && background != null) {
             g.color = background
             g.fillRect(0, 0, width, height)
         }
-        insets?.let { insets ->
-            width = width - insets.right - insets.left
-            height = height - insets.top - insets.bottom
-            g.translate(insets.left, insets.right)
-            g.setClip(0, 0, width, height)
-        }
-        usingGraphics2d(g, width, height) {
-            paintCanvas(it, width, height)
-        }
+        doPaint()
     }
 
-    private fun paintCanvas(g: Graphics2D, width: Int, height: Int) {
+    fun render() {
+        if (!isVisible || !isActiveRendering) {
+            return
+        }
+        doPaint()
+    }
+
+    private fun doPaint() {
+        if (bufferStrategy == null) {
+            createBufferStrategy(2)
+        }
+        do {
+            (bufferStrategy.drawGraphics as Graphics2D).use { paintCanvas(it) }
+            bufferStrategy.show()
+        } while (bufferStrategy.contentsLost())
+    }
+
+    private fun paintCanvas(g: Graphics2D) {
         g.background = background
-        painter(g, dimension(width, height))
-    }
-}
-
-private inline fun usingGraphics2d(g: Graphics, width: Int, height: Int, block: (Graphics2D) -> Unit) {
-    contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
-    if (g is Graphics2D) {
-        (g.create() as Graphics2D).use(block)
-    } else {
-        BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB).also { img ->
-            img.createGraphics().use(block)
-            g.drawImage(img, 0, 0, null)
-        }
+        painter(g, size)
     }
 }

@@ -24,7 +24,7 @@ fun main() {
         with(JFrame("Skywing Examples - Circles")) {
             mainFrame()
             var angle = Radians(0.0)
-            addComponent(component = CustomComponent()) {
+            addComponent(component = CustomComponent(isActiveRendering = true)) {
                 painter { (width, height) ->
                     hints {
                         renderingQuality()
@@ -32,14 +32,15 @@ fun main() {
                     }
                     background = Color.BLACK
                     clearRect(0, 0, width, height)
+                    val center = point(width, height) / 2.0
                     repeat(500) {
                         color = Color.getHSBColor(it / 150f, 1f, 1f)
-                        fill(circle(point(width, height) / 2.0 + (angle * it.toDouble()).toPoint2D() * it, 5.0))
+                        fill(circle(center + (angle * it).toPoint2D() * it, 5.0))
                     }
                 }
                 Timer(13) {
-                    angle += Radians(Math.PI / 100000 * 10)
-                    repaint()
+                    angle = Radians(Math.PI / 100000 * System.currentTimeMillis())
+                    render()
                 }.run {
                     isRepeats = true
                     start()

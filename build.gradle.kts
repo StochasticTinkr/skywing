@@ -4,16 +4,34 @@ plugins {
     `maven-publish`
     idea
 }
+
 repositories {
     mavenCentral()
     mavenLocal()
 }
 
+val testJavaAgent = "testJavaAgent"
+
+configurations {
+    create(testJavaAgent) {
+        description = "Java agents used in tests"
+    }
+}
+
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
     compilerOptions {
         optIn.add("kotlin.contracts.ExperimentalContracts")
     }
+}
+
+dependencies {
+    api(kotlin("stdlib"))
+    implementation(kotlin("reflect"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("io.mockk:mockk:1.13.12")
+    testJavaAgent("net.bytebuddy:byte-buddy-agent:1.11.10")
 }
 
 idea {
@@ -47,12 +65,8 @@ java {
 
 tasks.test {
     useJUnitPlatform()
+    // add java agent used for mockk
+    configurations[testJavaAgent].forEach { jvmArgs("-javaagent:$it") }
 }
 
-dependencies {
-    api(kotlin("stdlib"))
-    implementation(kotlin("reflect"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
-    testImplementation("io.mockk:mockk:1.13.4")
-}
 

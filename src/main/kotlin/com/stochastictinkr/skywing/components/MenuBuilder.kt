@@ -52,7 +52,7 @@ inline fun makeMenuItem(action: Action? = null, init: Init<JMenuItem> = {}): JMe
  * Add a [JMenu] to the menu bar, and initialize it.
  * @param action An optional action to associate with this menu. See [JMenu.action].
  */
-inline fun JMenuBar.menu(action: Action? = null, text:String? = null, init: Init<JMenu> = {}) {
+inline fun JMenuBar.menu(action: Action? = null, text: String? = null, init: Init<JMenu> = {}) {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
     add(makeMenu(action, text) { init() })
 }
@@ -61,7 +61,7 @@ inline fun JMenuBar.menu(action: Action? = null, text:String? = null, init: Init
  * Add a [JMenu] to the popup menu, and initialize it.
  * @param action An optional action to associate with this menu. See [JMenu.action].
  */
-inline fun JPopupMenu.menu(action: Action? = null, text:String? = null, init: Init<JMenu> = {}) {
+inline fun JPopupMenu.menu(action: Action? = null, text: String? = null, init: Init<JMenu> = {}) {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
     add(makeMenu(action, text) { init() })
 }
@@ -70,11 +70,10 @@ inline fun JPopupMenu.menu(action: Action? = null, text:String? = null, init: In
  * Add a [JMenu] to the menu, and initialize it.
  * @param action An optional action to associate with this menu. See [JMenu.action].
  */
-inline fun JMenu.menu(action: Action? = null, text:String? = null, init: Init<JMenu> = {}) {
+inline fun JMenu.menu(action: Action? = null, text: String? = null, init: Init<JMenu> = {}) {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
     add(makeMenu(action, text) { init() })
 }
-
 
 
 /**

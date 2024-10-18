@@ -26,10 +26,12 @@ value class NoConstraintLayoutBuilder(val container: Container) {
         contract { callsInPlace(init, InvocationKind.UNKNOWN) }
         source.forEach { add(it, init) }
     }
+
     inline fun <C : Component> add(source: Iterable<C>, init: Init<C> = {}) {
         contract { callsInPlace(init, InvocationKind.UNKNOWN) }
         source.forEach { add(it, init) }
     }
+
     inline fun <C : Component> add(vararg items: C, init: Init<C> = {}) {
         contract { callsInPlace(init, InvocationKind.UNKNOWN) }
         items.forEach { add(it, init) }

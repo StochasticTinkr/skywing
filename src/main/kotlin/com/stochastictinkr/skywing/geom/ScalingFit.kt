@@ -1,10 +1,5 @@
 package com.stochastictinkr.skywing.geom
 
-import java.awt.geom.AffineTransform
-import java.awt.geom.Dimension2D
-import kotlin.math.max
-import kotlin.math.min
-
 enum class ScalingFit {
     /**
      * Do not scale

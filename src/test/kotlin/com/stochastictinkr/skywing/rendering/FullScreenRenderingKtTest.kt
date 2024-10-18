@@ -10,15 +10,17 @@ import com.stochastictinkr.skywing.geom.point
 import com.stochastictinkr.skywing.geom.times
 import java.awt.Color
 import java.awt.GraphicsEnvironment
+import java.lang.System.currentTimeMillis
 
 fun main() {
     var angle = Radians(0.0)
     fullScreenRendering(
         graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().screenDevices.first(),
         updateState = {
-        angle += Radians(Math.PI / 100000  *10)
-        true
-    }) { (width, height) ->
+            angle = Radians(Math.PI / 100000 * currentTimeMillis())
+            Thread.sleep(13)
+            true
+        }) { (width, height) ->
         hints {
             renderingQuality()
             antialiasingOn()

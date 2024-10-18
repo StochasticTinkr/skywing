@@ -20,7 +20,7 @@ enum class ScalingDirection {
      */
     DOWN;
 
-    fun matches(source: Double, target:Double) =
+    fun matches(source: Double, target: Double) =
         when (this) {
             ANY -> true
             UP -> source < target
