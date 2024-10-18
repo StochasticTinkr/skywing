@@ -31,7 +31,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("io.mockk:mockk:1.13.12")
-    testJavaAgent("net.bytebuddy:byte-buddy-agent:1.11.10")
+    testJavaAgent("net.bytebuddy:byte-buddy-agent:1.14.18")
 }
 
 idea {
