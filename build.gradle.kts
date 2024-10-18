@@ -12,10 +12,8 @@ repositories {
 
 val testJavaAgent = "testJavaAgent"
 
-configurations {
-    create(testJavaAgent) {
-        description = "Java agents used in tests"
-    }
+configurations.create(testJavaAgent) {
+    description = "Java agents used in running tests"
 }
 
 kotlin {
