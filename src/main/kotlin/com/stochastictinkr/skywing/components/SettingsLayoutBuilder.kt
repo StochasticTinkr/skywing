@@ -1,32 +1,19 @@
 package com.stochastictinkr.skywing.components
 
-import com.stochastictinkr.skywing.components.borders.EtchedType
-import com.stochastictinkr.skywing.components.borders.TitleJustification
-import com.stochastictinkr.skywing.components.borders.etched
-import com.stochastictinkr.skywing.components.borders.titled
-import com.stochastictinkr.skywing.components.layout.gridBagConstraints
-import com.stochastictinkr.skywing.components.models.boundedRangeModel
-import com.stochastictinkr.skywing.utils.Init
-import com.stochastictinkr.skywing.utils.ObservableProperty
-import com.stochastictinkr.skywing.utils.asInt
-import com.stochastictinkr.skywing.utils.convertingTo
-import com.stochastictinkr.skywing.utils.scalingTo
-import java.awt.Color
-import java.awt.Component
-import java.awt.Container
-import java.awt.GridBagConstraints.HORIZONTAL
-import java.awt.GridBagConstraints.LINE_START
-import java.awt.GridBagConstraints.REMAINDER
-import java.awt.GridBagLayout
-import java.util.Hashtable
-import javax.swing.JCheckBox
-import javax.swing.JComponent
-import javax.swing.JSlider
-import javax.swing.SwingConstants
-import javax.swing.border.Border
-import kotlin.math.max
-import kotlin.math.min
+import com.stochastictinkr.skywing.components.borders.*
+import com.stochastictinkr.skywing.components.layout.*
+import com.stochastictinkr.skywing.components.models.*
+import com.stochastictinkr.skywing.utils.*
+import java.awt.*
+import java.awt.GridBagConstraints.*
+import java.util.*
+import javax.swing.*
+import javax.swing.border.*
+import kotlin.math.*
 
+/**
+ * A builder for creating a settings layout.
+ */
 data class SettingsLayoutBuilder(val container: Container) {
     var defaultTitleColor: Color? = null
     var defaultBorderShadowColor: Color? = null
@@ -60,29 +47,36 @@ data class SettingsLayoutBuilder(val container: Container) {
         borderFactory: (label: String?) -> Border? = defaultBorderFactory,
         label: (Int) -> String? = { null },
     ) {
-        val slider = JSlider(
-            boundedRangeModel(property.get(), extent, min(start, end), max(start, end))
-        ).apply {
-            this.orientation = orientation
-            this.majorTickSpacing = majorTickSpacing
-            this.minorTickSpacing = minorTickSpacing
-            tickLabels?.let { this.labelTable = Hashtable(it) }
-            this.inverted = start > end
-            this.snapToTicks = snapToTicks
-            this.paintTicks = paintLabels || minorTickSpacing > 1
-            this.paintLabels = paintLabels
-        }
-        container.addComponent(rowConstraints, component = slider) {
-            copyColors()
-        }
-        fun updateBorder() {
-            slider.border = borderFactory(label(property.get()))
-        }
-        slider bindTo property
-        updateBorder()
-        property.addListener { updateBorder() }
+        slider(
+            inverted = start > end,
+            extent = extent,
+            minimum = min(start, end),
+            maximum = max(start, end),
+            minorTickSpacing = minorTickSpacing,
+            majorTickSpacing = majorTickSpacing,
+            snapToTicks = snapToTicks,
+            tickLabels = tickLabels,
+            paintLabels = paintLabels,
+            bindProperty = property,
+            valueProperty = property,
+            borderFactory = borderFactory,
+            label = label
+        )
     }
 
+    /**
+     * Add a slider to the layout.
+     *
+     * @param start The minimum value of the slider.
+     * @param end The maximum value of the slider.
+     * @param minorSteps The number of minor steps between the start and end values.
+     * @param majorSteps The number of major steps between the start and end values.
+     * @param minorTickSpacing The number of minor steps between each tick.
+     * @param majorTickSpacing The number of major steps between each major tick.
+     * @param property The property to bind the slider to. This will be bound to the slider's value.
+     * @param borderFactory The factory to create the border for the slider. This will be called with the label text.
+     * @param label The label to display next to the slider. If this returns non-null, it create or replace the border with the label.
+     */
     fun slider(
         start: Double = -1.0,
         end: Double = 1.0,
@@ -94,28 +88,67 @@ data class SettingsLayoutBuilder(val container: Container) {
         borderFactory: (label: String?) -> Border? = defaultBorderFactory,
         label: (Double) -> String? = { null },
     ) {
-        val converted = property.convertingTo(0..minorSteps scalingTo start..end).asInt()
+        slider(
+            inverted = start > end,
+            extent = 0,
+            minimum = 0,
+            maximum = minorSteps,
+            minorTickSpacing = minorTickSpacing,
+            majorTickSpacing = majorTickSpacing,
+            snapToTicks = false,
+            tickLabels = null,
+            paintLabels = false,
+            bindProperty = property.convertingTo(0..minorSteps scalingTo start..end).asInt(),
+            valueProperty = property,
+            borderFactory = borderFactory,
+            label = label
+        )
+    }
+
+    private fun <N> slider(
+        inverted: Boolean,
+        extent: Int,
+        minimum: Int,
+        maximum: Int,
+        minorTickSpacing: Int,
+        majorTickSpacing: Int,
+        snapToTicks: Boolean = true,
+        tickLabels: Map<Int, JComponent>? = null,
+        paintLabels: Boolean = !tickLabels.isNullOrEmpty(),
+        bindProperty: ObservableProperty<Int>,
+        valueProperty: ObservableProperty<N>,
+        borderFactory: (label: String?) -> Border?,
+        label: (N) -> String?,
+    ) {
         val slider = JSlider(
-            boundedRangeModel(converted.get(), 0, 0, minorSteps)
+            boundedRangeModel(bindProperty.get(), extent, minimum, maximum)
         ).apply {
             this.orientation = orientation
             this.majorTickSpacing = majorTickSpacing
             this.minorTickSpacing = minorTickSpacing
-            this.inverted = start > end
-            this.snapToTicks = true
-            this.paintTicks = true
+            tickLabels?.let { this.labelTable = Hashtable(it) }
+            this.inverted = inverted
+            this.snapToTicks = snapToTicks
+            this.paintTicks = paintLabels
         }
         container.addComponent(rowConstraints, component = slider) {
             copyColors()
         }
         fun updateBorder() {
-            slider.border = borderFactory(label(property.get()))
+            slider.border = borderFactory(label(valueProperty.get()))
         }
-        slider bindTo converted
+        slider bindTo bindProperty
         updateBorder()
-        property.addListener { updateBorder() }
+        valueProperty.addListener { updateBorder() }
     }
 
+    /**
+     * Add a checkbox to the layout.
+     *
+     * @param checkbox The checkbox to add to the layout.
+     * @param property The property to bind the checkbox to. This will be bound to the checkbox's selected state.
+     * @param label The label to display next to the checkbox. If this returns non-null, it will update the checkbox text.
+     */
     fun checkbox(
         checkbox: JCheckBox = jCheckBox().apply {
             horizontalTextPosition = SwingConstants.LEADING
@@ -141,6 +174,9 @@ data class SettingsLayoutBuilder(val container: Container) {
 
 }
 
+/**
+ * Layout the container with a settings layout.
+ */
 fun Container.settingsLayout(addComponents: Init<SettingsLayoutBuilder> = {}): SettingsLayoutBuilder {
     layout = GridBagLayout()
     return SettingsLayoutBuilder(this).also(addComponents)
