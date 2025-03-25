@@ -1,0 +1,17 @@
+[versions]
+kotlin = "2.1.10"
+test-junit = "5.10.3"
+test-mockk = "1.13.17"
+test-agent-bytebuddy = "1.14.18"
+
+
+[libraries]
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+test-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "test-junit" }
+test-junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+test-mockk = { module = "io.mockk:mockk", version.ref = "test-mockk" }
+test-agent-bytebuddy = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "test-agent-bytebuddy" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

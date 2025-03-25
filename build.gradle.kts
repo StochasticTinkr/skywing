@@ -1,9 +1,51 @@
 plugins {
-    kotlin("jvm")
+    alias(libs.plugins.kotlin.jvm)
     `java-library`
     `maven-publish`
+    signing
     idea
 }
+
+// Publishing configuration:
+
+group = "com.stochastictinkr"
+version = "0.1-SNAPSHOT"
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+
+publishing {
+    publications {
+        create<MavenPublication>(project.name) {
+            from(components["java"])
+            pom {
+                name.set("${group}:${project.name}")
+                description.set("A kotlin-friendly API for building AWT and Swing applications.")
+                url.set("https://github.com/StochasticTinkr/skywing")
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/StochasticTinkr/skywing.git")
+                    developerConnection.set("scm:git:ssh://github.com/StochasticTinkr/skywing.git")
+                    url.set("https://github.com/StochasticTinkr/skywing")
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications[project.name])
+}
+
+// Dependencies and test configuration:
 
 repositories {
     mavenCentral()
@@ -24,12 +66,12 @@ kotlin {
 }
 
 dependencies {
-    api(kotlin("stdlib"))
-    implementation(kotlin("reflect"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("io.mockk:mockk:1.13.12")
-    testJavaAgent("net.bytebuddy:byte-buddy-agent:1.14.18")
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlin.reflect)
+    testImplementation(libs.test.junit.jupiter)
+    testRuntimeOnly(libs.test.junit.platform.launcher)
+    testImplementation(libs.test.mockk)
+    testJavaAgent(libs.test.agent.bytebuddy)
 }
 
 idea {
@@ -39,16 +81,6 @@ idea {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>(project.name) {
-            from(components["java"])
-        }
-    }
-}
-
-group = "com.stochastictinkr"
-version = "0.1-SNAPSHOT"
 
 allprojects {
     repositories {
@@ -57,9 +89,6 @@ allprojects {
     }
 }
 
-java {
-    withSourcesJar()
-}
 
 tasks.test {
     useJUnitPlatform()
