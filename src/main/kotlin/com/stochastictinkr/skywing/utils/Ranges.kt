@@ -6,13 +6,28 @@ fun IntRange.toDoubleRange() = start.toDouble()..endInclusive.toDouble()
 
 val Range.delta get() = endInclusive - start
 
+/**
+ * A scaling function that maps a value from one range to another.
+ */
 data class Scaling(
     val input: Range,
     val output: Range,
 ) : (Double) -> Double {
     val scale = output.delta / input.delta
+
+    /**
+     * The inverse of this scaling function.
+     */
     val reversed get() = Scaling(output, input)
+
+    /**
+     * Scale the value from the input range to the output range.
+     */
     override operator fun invoke(value: Double) = (value - input.start) * scale + output.start
+
+    /**
+     * Scale the value from the output range to the input range.
+     */
     fun reversed(value: Double) = (value - output.start) / scale + input.start
 }
 
